@@ -282,12 +282,7 @@ class SsoSessionState implements \Serializable
             return $this->idpEntityId;
         }
 
-        throw new LightSamlException(sprintf(
-            'Party "%s" is not included in sso session between "%s" and "%s"',
-            $partyId,
-            $this->idpEntityId,
-            $this->spEntityId
-        ));
+        throw new LightSamlException(sprintf('Party "%s" is not included in sso session between "%s" and "%s"', $partyId, $this->idpEntityId, $this->spEntityId));
     }
 
     /**
@@ -295,7 +290,7 @@ class SsoSessionState implements \Serializable
      */
     public function serialize()
     {
-        return serialize(array(
+        return serialize([
             $this->idpEntityId,
             $this->spEntityId,
             $this->nameId,
@@ -306,7 +301,7 @@ class SsoSessionState implements \Serializable
             $this->lastAuthOn,
             [],
             $this->parameters,
-        ));
+        ]);
     }
 
     /**
@@ -339,5 +334,33 @@ class SsoSessionState implements \Serializable
         if ($options && 0 == $this->parameters->count()) {
             $this->parameters->replace($options);
         }
+    }
+
+    public function __serialize(): array
+    {
+        return [
+            'idpEntityId' => $this->idpEntityId,
+            'spEntityId' => $this->spEntityId,
+            'nameId' => $this->nameId,
+            'nameIdFormat' => $this->nameIdFormat,
+            'sessionIndex' => $this->sessionIndex,
+            'sessionInstant' => $this->sessionInstant,
+            'firstAuthOn' => $this->firstAuthOn,
+            'lastAuthOn' => $this->lastAuthOn,
+            'parameters' => $this->parameters,
+        ];
+    }
+
+    public function __unserialize(array $data): void
+    {
+        $this->idpEntityId = $data['idpEntityId'];
+        $this->spEntityId = $data['spEntityId'];
+        $this->nameId = $data['nameId'];
+        $this->nameIdFormat = $data['nameIdFormat'];
+        $this->sessionIndex = $data['sessionIndex'];
+        $this->sessionInstant = $data['sessionInstant'];
+        $this->firstAuthOn = $data['firstAuthOn'];
+        $this->lastAuthOn = $data['lastAuthOn'];
+        $this->parameters = $data['parameters'];
     }
 }
