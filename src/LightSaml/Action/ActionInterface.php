@@ -15,5 +15,8 @@ use LightSaml\Context\ContextInterface;
 
 interface ActionInterface
 {
+    /**
+     * @param ContextInterface $context
+     */
     public function execute(ContextInterface $context);
 }

@@ -56,6 +56,8 @@ class MessageContext extends AbstractProfileContext
     }
 
     /**
+     * @param SamlMessage|null $message
+     *
      * @return MessageContext
      */
     public function setMessage(SamlMessage $message = null)

@@ -21,6 +21,10 @@ class AssertionValidatorAction extends AbstractAssertionAction
     /** @var AssertionValidatorInterface */
     protected $assertionValidator;
 
+    /**
+     * @param LoggerInterface             $logger
+     * @param AssertionValidatorInterface $assertionValidator
+     */
     public function __construct(LoggerInterface $logger, AssertionValidatorInterface $assertionValidator)
     {
         parent::__construct($logger);
@@ -28,6 +32,9 @@ class AssertionValidatorAction extends AbstractAssertionAction
         $this->assertionValidator = $assertionValidator;
     }
 
+    /**
+     * @param AssertionContext $context
+     */
     protected function doExecute(AssertionContext $context)
     {
         $this->assertionValidator->validateAssertion($context->getAssertion());

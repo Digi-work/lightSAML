@@ -13,7 +13,7 @@ namespace LightSaml\Event;
 
 abstract class Events
 {
-    public const BINDING_MESSAGE_RECEIVED = 'lightsaml.binding_message_received';
-    public const BINDING_MESSAGE_SENT = 'lightsaml.binding_message_sent';
-    public const BEFORE_ENCRYPT = 'lightsaml.before_encrypt';
+    const BINDING_MESSAGE_RECEIVED = 'lightsaml.binding_message_received';
+    const BINDING_MESSAGE_SENT = 'lightsaml.binding_message_sent';
+    const BEFORE_ENCRYPT = 'lightsaml.before_encrypt';
 }

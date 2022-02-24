@@ -17,7 +17,7 @@ abstract class AbstractContext implements ContextInterface
     private $parent;
 
     /** @var ContextInterface[] */
-    private $subContexts = [];
+    private $subContexts = array();
 
     /**
      * @return ContextInterface|null
@@ -40,6 +40,8 @@ abstract class AbstractContext implements ContextInterface
     }
 
     /**
+     * @param ContextInterface|null $parent
+     *
      * @return ContextInterface
      */
     public function setParent(ContextInterface $parent = null)
@@ -51,7 +53,7 @@ abstract class AbstractContext implements ContextInterface
 
     /**
      * @param string      $name
-     * @param string|null $class
+     * @param null|string $class
      *
      * @return ContextInterface|null
      */
@@ -146,7 +148,7 @@ abstract class AbstractContext implements ContextInterface
         foreach ($this->subContexts as $subContext) {
             $subContext->setParent(null);
         }
-        $this->subContexts = [];
+        $this->subContexts = array();
 
         return $this;
     }
@@ -166,20 +168,20 @@ abstract class AbstractContext implements ContextInterface
      */
     public function debugPrintTree($ownName = 'root')
     {
-        $result = [
+        $result = array(
             $ownName => static::class,
-        ];
+        );
 
         if ($this->subContexts) {
-            $arr = [];
+            $arr = array();
             foreach ($this->subContexts as $name => $subContext) {
                 if ($subContext instanceof ContextInterface) {
                     $arr = array_merge($arr, $subContext->debugPrintTree($name));
                 } else {
-                    $arr = array_merge($arr, [$name => get_class($subContext)]);
+                    $arr = array_merge($arr, array($name => get_class($subContext)));
                 }
             }
-            $result[$ownName . '__children'] = $arr;
+            $result[$ownName.'__children'] = $arr;
         }
 
         return $result;

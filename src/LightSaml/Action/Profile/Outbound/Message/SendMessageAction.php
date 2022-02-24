@@ -22,6 +22,10 @@ class SendMessageAction extends AbstractProfileAction
     /** @var BindingFactoryInterface */
     protected $bindingFactory;
 
+    /**
+     * @param LoggerInterface         $logger
+     * @param BindingFactoryInterface $bindingFactory
+     */
     public function __construct(LoggerInterface $logger, BindingFactoryInterface $bindingFactory)
     {
         parent::__construct($logger);
@@ -30,6 +34,8 @@ class SendMessageAction extends AbstractProfileAction
     }
 
     /**
+     * @param ProfileContext $context
+     *
      * @return void
      */
     public function doExecute(ProfileContext $context)
@@ -44,9 +50,9 @@ class SendMessageAction extends AbstractProfileAction
 
         $this->logger->info(
             'Sending message',
-            LogHelper::getActionContext($context, $this, [
+            LogHelper::getActionContext($context, $this, array(
                 'message' => $outboundContext->getSerializationContext()->getDocument()->saveXML(),
-            ])
+            ))
         );
     }
 }

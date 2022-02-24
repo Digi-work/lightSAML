@@ -17,6 +17,7 @@ use LightSaml\Model\Metadata\EndpointReference;
 interface EndpointResolverInterface
 {
     /**
+     * @param CriteriaSet         $criteriaSet
      * @param EndpointReference[] $candidates
      *
      * @return EndpointReference[]

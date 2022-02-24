@@ -18,7 +18,9 @@ use LightSaml\Context\Profile\ProfileContext;
 abstract class LogHelper
 {
     /**
-     * @param array $extraData
+     * @param ContextInterface $context
+     * @param ActionInterface  $action
+     * @param array            $extraData
      *
      * @return array
      */
@@ -28,7 +30,9 @@ abstract class LogHelper
     }
 
     /**
-     * @param array $extraData
+     * @param ContextInterface $context
+     * @param ActionInterface  $action
+     * @param array            $extraData
      *
      * @return array
      */
@@ -38,16 +42,17 @@ abstract class LogHelper
     }
 
     /**
-     * @param ActionInterface $action
-     * @param array           $extraData
-     * @param bool            $logWholeContext
+     * @param ContextInterface $context
+     * @param ActionInterface  $action
+     * @param array            $extraData
+     * @param bool             $logWholeContext
      *
      * @return array
      */
     private static function getContext(ContextInterface $context, ActionInterface $action = null, array $extraData = null, $logWholeContext = false)
     {
         $topContext = $context->getTopParent();
-        $result = [];
+        $result = array();
         if ($topContext instanceof ProfileContext) {
             $result['profile_id'] = $topContext->getProfileId();
             $result['own_role'] = $topContext->getOwnRole();

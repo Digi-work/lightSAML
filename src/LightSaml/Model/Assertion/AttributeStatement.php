@@ -20,9 +20,11 @@ class AttributeStatement extends AbstractStatement
     /**
      * @var Attribute[]
      */
-    protected $attributes = [];
+    protected $attributes = array();
 
     /**
+     * @param Attribute $attribute
+     *
      * @return AttributeStatement
      */
     public function addAttribute(Attribute $attribute)
@@ -59,6 +61,9 @@ class AttributeStatement extends AbstractStatement
     }
 
     /**
+     * @param \DOMNode             $parent
+     * @param SerializationContext $context
+     *
      * @return void
      */
     public function serialize(\DOMNode $parent, SerializationContext $context)
@@ -68,11 +73,15 @@ class AttributeStatement extends AbstractStatement
         $this->manyElementsToXml($this->getAllAttributes(), $result, $context, null);
     }
 
+    /**
+     * @param \DOMNode               $node
+     * @param DeserializationContext $context
+     */
     public function deserialize(\DOMNode $node, DeserializationContext $context)
     {
         $this->checkXmlNodeName($node, 'AttributeStatement', SamlConstants::NS_ASSERTION);
 
-        $this->attributes = [];
+        $this->attributes = array();
         $this->manyElementsFromXml(
             $node,
             $context,

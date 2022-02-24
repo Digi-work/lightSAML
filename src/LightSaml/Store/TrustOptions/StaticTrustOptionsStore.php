@@ -16,10 +16,11 @@ use LightSaml\Meta\TrustOptions\TrustOptions;
 class StaticTrustOptionsStore implements TrustOptionsStoreInterface
 {
     /** @var TrustOptions[] */
-    protected $options = [];
+    protected $options = array();
 
     /**
-     * @param string $entityId
+     * @param string       $entityId
+     * @param TrustOptions $options
      *
      * @return StaticTrustOptionsStore
      */

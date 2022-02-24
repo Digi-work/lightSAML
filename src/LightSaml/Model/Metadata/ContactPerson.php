@@ -11,18 +11,18 @@
 
 namespace LightSaml\Model\Metadata;
 
-use LightSaml\Model\AbstractSamlModel;
 use LightSaml\Model\Context\DeserializationContext;
 use LightSaml\Model\Context\SerializationContext;
+use LightSaml\Model\AbstractSamlModel;
 use LightSaml\SamlConstants;
 
 class ContactPerson extends AbstractSamlModel
 {
-    public const TYPE_TECHNICAL = 'technical';
-    public const TYPE_SUPPORT = 'support';
-    public const TYPE_ADMINISTRATIVE = 'administrative';
-    public const TYPE_BILLING = 'billing';
-    public const TYPE_OTHER = 'other';
+    const TYPE_TECHNICAL = 'technical';
+    const TYPE_SUPPORT = 'support';
+    const TYPE_ADMINISTRATIVE = 'administrative';
+    const TYPE_BILLING = 'billing';
+    const TYPE_OTHER = 'other';
 
     /** @var string */
     protected $contactType;
@@ -63,7 +63,7 @@ class ContactPerson extends AbstractSamlModel
     }
 
     /**
-     * @param string|null $company
+     * @param null|string $company
      *
      * @return ContactPerson
      */
@@ -75,7 +75,7 @@ class ContactPerson extends AbstractSamlModel
     }
 
     /**
-     * @return string|null
+     * @return null|string
      */
     public function getCompany()
     {
@@ -83,7 +83,7 @@ class ContactPerson extends AbstractSamlModel
     }
 
     /**
-     * @param string|null $emailAddress
+     * @param null|string $emailAddress
      *
      * @return ContactPerson
      */
@@ -95,7 +95,7 @@ class ContactPerson extends AbstractSamlModel
     }
 
     /**
-     * @return string|null
+     * @return null|string
      */
     public function getEmailAddress()
     {
@@ -103,7 +103,7 @@ class ContactPerson extends AbstractSamlModel
     }
 
     /**
-     * @param string|null $givenName
+     * @param null|string $givenName
      *
      * @return ContactPerson
      */
@@ -115,7 +115,7 @@ class ContactPerson extends AbstractSamlModel
     }
 
     /**
-     * @return string|null
+     * @return null|string
      */
     public function getGivenName()
     {
@@ -123,7 +123,7 @@ class ContactPerson extends AbstractSamlModel
     }
 
     /**
-     * @param string|null $surName
+     * @param null|string $surName
      *
      * @return ContactPerson
      */
@@ -135,7 +135,7 @@ class ContactPerson extends AbstractSamlModel
     }
 
     /**
-     * @return string|null
+     * @return null|string
      */
     public function getSurName()
     {
@@ -143,7 +143,7 @@ class ContactPerson extends AbstractSamlModel
     }
 
     /**
-     * @param string|null $telephoneNumber
+     * @param null|string $telephoneNumber
      *
      * @return ContactPerson
      */
@@ -155,7 +155,7 @@ class ContactPerson extends AbstractSamlModel
     }
 
     /**
-     * @return string|null
+     * @return null|string
      */
     public function getTelephoneNumber()
     {
@@ -163,34 +163,41 @@ class ContactPerson extends AbstractSamlModel
     }
 
     /**
+     * @param \DOMNode             $parent
+     * @param SerializationContext $context
+     *
      * @return void
      */
     public function serialize(\DOMNode $parent, SerializationContext $context)
     {
         $result = $this->createElement('ContactPerson', SamlConstants::NS_METADATA, $parent, $context);
 
-        $this->attributesToXml(['contactType'], $result);
+        $this->attributesToXml(array('contactType'), $result);
 
         $this->singleElementsToXml(
-            ['Company', 'GivenName', 'SurName', 'EmailAddress', 'TelephoneNumber'],
+            array('Company', 'GivenName', 'SurName', 'EmailAddress', 'TelephoneNumber'),
             $result,
             $context,
             SamlConstants::NS_METADATA
         );
     }
 
+    /**
+     * @param \DOMNode               $node
+     * @param DeserializationContext $context
+     */
     public function deserialize(\DOMNode $node, DeserializationContext $context)
     {
         $this->checkXmlNodeName($node, 'ContactPerson', SamlConstants::NS_METADATA);
 
-        $this->attributesFromXml($node, ['contactType']);
+        $this->attributesFromXml($node, array('contactType'));
 
-        $this->singleElementsFromXml($node, $context, [
-            'Company' => ['md', null],
-            'GivenName' => ['md', null],
-            'SurName' => ['md', null],
-            'EmailAddress' => ['md', null],
-            'TelephoneNumber' => ['md', null],
-        ]);
+        $this->singleElementsFromXml($node, $context, array(
+            'Company' => array('md', null),
+            'GivenName' => array('md', null),
+            'SurName' => array('md', null),
+            'EmailAddress' => array('md', null),
+            'TelephoneNumber' => array('md', null),
+        ));
     }
 }

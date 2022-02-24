@@ -29,6 +29,10 @@ class SignMessageAction extends AbstractProfileAction
     /** @var SignatureResolverInterface */
     protected $signatureResolver;
 
+    /**
+     * @param LoggerInterface            $logger
+     * @param SignatureResolverInterface $signatureResolver
+     */
     public function __construct(LoggerInterface $logger, SignatureResolverInterface $signatureResolver)
     {
         parent::__construct($logger);
@@ -48,14 +52,14 @@ class SignMessageAction extends AbstractProfileAction
 
                 $this->logger->debug(
                     sprintf('Message signed with fingerprint "%s"', $signature->getCertificate()->getFingerprint()),
-                    LogHelper::getActionContext($context, $this, [
+                    LogHelper::getActionContext($context, $this, array(
                         'certificate' => $signature->getCertificate()->getInfo(),
-                    ])
+                    ))
                 );
             } else {
                 $this->logger->critical(
                     'No signature resolved, although signing enabled',
-                    LogHelper::getActionErrorContext($context, $this, [])
+                    LogHelper::getActionErrorContext($context, $this, array())
                 );
             }
         } else {
@@ -64,6 +68,8 @@ class SignMessageAction extends AbstractProfileAction
     }
 
     /**
+     * @param ProfileContext $context
+     *
      * @return bool
      */
     private function shouldSignMessage(ProfileContext $context)

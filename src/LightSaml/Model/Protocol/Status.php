@@ -11,9 +11,9 @@
 
 namespace LightSaml\Model\Protocol;
 
-use LightSaml\Model\AbstractSamlModel;
 use LightSaml\Model\Context\DeserializationContext;
 use LightSaml\Model\Context\SerializationContext;
+use LightSaml\Model\AbstractSamlModel;
 use LightSaml\SamlConstants;
 
 class Status extends AbstractSamlModel
@@ -25,7 +25,8 @@ class Status extends AbstractSamlModel
     protected $statusMessage;
 
     /**
-     * @param string $message
+     * @param StatusCode|null $statusCode
+     * @param string          $message
      */
     public function __construct(StatusCode $statusCode = null, $message = null)
     {
@@ -34,6 +35,8 @@ class Status extends AbstractSamlModel
     }
 
     /**
+     * @param StatusCode $statusCode
+     *
      * @return Status
      */
     public function setStatusCode(StatusCode $statusCode)
@@ -89,22 +92,29 @@ class Status extends AbstractSamlModel
     }
 
     /**
+     * @param \DOMNode             $parent
+     * @param SerializationContext $context
+     *
      * @return void
      */
     public function serialize(\DOMNode $parent, SerializationContext $context)
     {
         $result = $this->createElement('samlp:Status', SamlConstants::NS_PROTOCOL, $parent, $context);
 
-        $this->singleElementsToXml(['StatusCode', 'StatusMessage'], $result, $context, SamlConstants::NS_PROTOCOL);
+        $this->singleElementsToXml(array('StatusCode', 'StatusMessage'), $result, $context, SamlConstants::NS_PROTOCOL);
     }
 
+    /**
+     * @param \DOMNode               $node
+     * @param DeserializationContext $context
+     */
     public function deserialize(\DOMNode $node, DeserializationContext $context)
     {
         $this->checkXmlNodeName($node, 'Status', SamlConstants::NS_PROTOCOL);
 
-        $this->singleElementsFromXml($node, $context, [
-            'StatusCode' => ['samlp', 'LightSaml\Model\Protocol\StatusCode'],
-            'StatusMessage' => ['samlp', null],
-        ]);
+        $this->singleElementsFromXml($node, $context, array(
+            'StatusCode' => array('samlp', 'LightSaml\Model\Protocol\StatusCode'),
+            'StatusMessage' => array('samlp', null),
+        ));
     }
 }

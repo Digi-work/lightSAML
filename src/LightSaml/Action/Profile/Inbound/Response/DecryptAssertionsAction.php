@@ -12,19 +12,19 @@
 namespace LightSaml\Action\Profile\Inbound\Response;
 
 use LightSaml\Action\Profile\AbstractProfileAction;
+use LightSaml\Error\LightSamlContextException;
+use LightSaml\Model\Context\DeserializationContext;
 use LightSaml\Context\Profile\Helper\LogHelper;
 use LightSaml\Context\Profile\Helper\MessageContextHelper;
 use LightSaml\Context\Profile\ProfileContext;
+use LightSaml\Model\Assertion\EncryptedAssertionReader;
+use LightSaml\Resolver\Credential\CredentialResolverInterface;
+use LightSaml\SamlConstants;
 use LightSaml\Credential\CredentialInterface;
+use LightSaml\Credential\UsageType;
 use LightSaml\Credential\Criteria\EntityIdCriteria;
 use LightSaml\Credential\Criteria\MetadataCriteria;
 use LightSaml\Credential\Criteria\UsageCriteria;
-use LightSaml\Credential\UsageType;
-use LightSaml\Error\LightSamlContextException;
-use LightSaml\Model\Assertion\EncryptedAssertionReader;
-use LightSaml\Model\Context\DeserializationContext;
-use LightSaml\Resolver\Credential\CredentialResolverInterface;
-use LightSaml\SamlConstants;
 use Psr\Log\LoggerInterface;
 
 class DecryptAssertionsAction extends AbstractProfileAction
@@ -32,6 +32,10 @@ class DecryptAssertionsAction extends AbstractProfileAction
     /** @var CredentialResolverInterface */
     protected $credentialResolver;
 
+    /**
+     * @param LoggerInterface             $logger
+     * @param CredentialResolverInterface $credentialResolver
+     */
     public function __construct(LoggerInterface $logger, CredentialResolverInterface $credentialResolver)
     {
         parent::__construct($logger);
@@ -39,6 +43,9 @@ class DecryptAssertionsAction extends AbstractProfileAction
         $this->credentialResolver = $credentialResolver;
     }
 
+    /**
+     * @param ProfileContext $context
+     */
     protected function doExecute(ProfileContext $context)
     {
         $response = MessageContextHelper::asResponse($context->getInboundContext());
@@ -69,7 +76,7 @@ class DecryptAssertionsAction extends AbstractProfileAction
             $this->logger->emergency($message, LogHelper::getActionErrorContext($context, $this));
             throw new LightSamlContextException($context, $message);
         }
-        $this->logger->info('Trusted decryption candidates', LogHelper::getActionContext($context, $this, [
+        $this->logger->info('Trusted decryption candidates', LogHelper::getActionContext($context, $this, array(
             'credentials' => array_map(function (CredentialInterface $credential) {
                 return sprintf(
                     "Entity: '%s'; PK X509 Thumb: '%s'",
@@ -77,7 +84,7 @@ class DecryptAssertionsAction extends AbstractProfileAction
                     $credential->getPublicKey() ? $credential->getPublicKey()->getX509Thumbprint() : ''
                 );
             }, $privateKeys),
-        ]));
+        )));
 
         foreach ($response->getAllEncryptedAssertions() as $index => $encryptedAssertion) {
             if ($encryptedAssertion instanceof EncryptedAssertionReader) {
@@ -89,9 +96,9 @@ class DecryptAssertionsAction extends AbstractProfileAction
 
                 $this->logger->info(
                     'Assertion decrypted',
-                    LogHelper::getActionContext($context, $this, [
+                    LogHelper::getActionContext($context, $this, array(
                         'assertion' => $deserializationContext->getDocument()->saveXML(),
-                    ])
+                    ))
                 );
             }
         }

@@ -21,7 +21,7 @@ class CompositeEntityDescriptorStore implements EntityDescriptorStoreInterface
     /**
      * @param EntityDescriptorStoreInterface[] $stores
      */
-    public function __construct(array $stores = [])
+    public function __construct(array $stores = array())
     {
         foreach ($stores as $store) {
             $this->add($store);
@@ -29,6 +29,8 @@ class CompositeEntityDescriptorStore implements EntityDescriptorStoreInterface
     }
 
     /**
+     * @param EntityDescriptorStoreInterface $store
+     *
      * @return CompositeEntityDescriptorStore This instance
      */
     public function add(EntityDescriptorStoreInterface $store)
@@ -76,7 +78,7 @@ class CompositeEntityDescriptorStore implements EntityDescriptorStoreInterface
      */
     public function all()
     {
-        $result = [];
+        $result = array();
         foreach ($this->children as $store) {
             $result = array_merge($result, $store->all());
         }

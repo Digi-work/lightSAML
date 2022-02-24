@@ -35,7 +35,7 @@ class EntitiesDescriptor extends Metadata
     protected $signature;
 
     /** @var EntitiesDescriptor[]|EntityDescriptor[] */
-    protected $items = [];
+    protected $items = array();
 
     /**
      * @param string $filename
@@ -127,6 +127,8 @@ class EntitiesDescriptor extends Metadata
     }
 
     /**
+     * @param \LightSaml\Model\XmlDSig\Signature $signature
+     *
      * @return EntitiesDescriptor
      */
     public function setSignature(Signature $signature)
@@ -188,7 +190,7 @@ class EntitiesDescriptor extends Metadata
     public function getValidUntilDateTime()
     {
         if ($this->validUntil) {
-            return new \DateTime('@' . $this->validUntil);
+            return new \DateTime('@'.$this->validUntil);
         }
 
         return null;
@@ -258,7 +260,7 @@ class EntitiesDescriptor extends Metadata
      */
     public function getAllEntityDescriptors()
     {
-        $result = [];
+        $result = array();
         foreach ($this->items as $item) {
             if ($item instanceof self) {
                 $result = array_merge($result, $item->getAllEntityDescriptors());
@@ -287,28 +289,35 @@ class EntitiesDescriptor extends Metadata
     }
 
     /**
+     * @param \DOMNode             $parent
+     * @param SerializationContext $context
+     *
      * @return void
      */
     public function serialize(\DOMNode $parent, SerializationContext $context)
     {
         $result = $this->createElement('EntitiesDescriptor', SamlConstants::NS_METADATA, $parent, $context);
 
-        $this->attributesToXml(['validUntil', 'cacheDuration', 'ID', 'Name'], $result);
+        $this->attributesToXml(array('validUntil', 'cacheDuration', 'ID', 'Name'), $result);
 
-        $this->singleElementsToXml(['Signature'], $result, $context);
+        $this->singleElementsToXml(array('Signature'), $result, $context);
 
         $this->manyElementsToXml($this->getAllItems(), $result, $context);
     }
 
+    /**
+     * @param \DOMNode               $node
+     * @param DeserializationContext $context
+     */
     public function deserialize(\DOMNode $node, DeserializationContext $context)
     {
         $this->checkXmlNodeName($node, 'EntitiesDescriptor', SamlConstants::NS_METADATA);
 
-        $this->attributesFromXml($node, ['validUntil', 'cacheDuration', 'ID', 'Name']);
+        $this->attributesFromXml($node, array('validUntil', 'cacheDuration', 'ID', 'Name'));
 
-        $this->singleElementsFromXml($node, $context, [
-            'Signature' => ['ds', 'LightSaml\Model\XmlDSig\SignatureXmlReader'],
-        ]);
+        $this->singleElementsFromXml($node, $context, array(
+            'Signature' => array('ds', 'LightSaml\Model\XmlDSig\SignatureXmlReader'),
+        ));
 
         $this->manyElementsFromXml(
             $node,

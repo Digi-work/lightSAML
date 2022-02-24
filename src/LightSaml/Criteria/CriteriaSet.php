@@ -14,12 +14,12 @@ namespace LightSaml\Criteria;
 class CriteriaSet
 {
     /** @var array|CriteriaInterface[] */
-    protected $criterions = [];
+    protected $criterions = array();
 
     /**
      * @param CriteriaInterface[] $criterions
      */
-    public function __construct(array $criterions = [])
+    public function __construct(array $criterions = array())
     {
         foreach ($criterions as $criterion) {
             $this->add($criterion);
@@ -27,6 +27,8 @@ class CriteriaSet
     }
 
     /**
+     * @param CriteriaInterface $criteria
+     *
      * @return CriteriaSet
      */
     public function add(CriteriaInterface $criteria)
@@ -37,6 +39,8 @@ class CriteriaSet
     }
 
     /**
+     * @param CriteriaInterface $criteria
+     *
      * @return CriteriaSet
      */
     public function addIfNone(CriteriaInterface $criteria)
@@ -49,6 +53,8 @@ class CriteriaSet
     }
 
     /**
+     * @param CriteriaSet $criteriaSet
+     *
      * @return CriteriaSet
      */
     public function addAll(CriteriaSet $criteriaSet)
@@ -93,7 +99,7 @@ class CriteriaSet
      */
     public function get($class)
     {
-        $result = [];
+        $result = array();
         foreach ($this->criterions as $criteria) {
             if ($criteria instanceof $class) {
                 $result[] = $criteria;

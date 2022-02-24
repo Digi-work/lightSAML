@@ -23,6 +23,9 @@ abstract class AbstractProfileActionBuilder extends CompositeActionBuilder
     /** @var bool */
     private $initialized = false;
 
+    /**
+     * @param BuildContainerInterface $buildContainer
+     */
     public function __construct(BuildContainerInterface $buildContainer)
     {
         $this->buildContainer = $buildContainer;

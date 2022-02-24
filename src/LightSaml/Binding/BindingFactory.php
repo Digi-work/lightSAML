@@ -30,6 +30,8 @@ class BindingFactory implements BindingFactoryInterface
     }
 
     /**
+     * @param null|EventDispatcherInterface $eventDispatcher
+     *
      * @return BindingFactoryInterface
      */
     public function setEventDispatcher(EventDispatcherInterface $eventDispatcher = null)
@@ -40,6 +42,8 @@ class BindingFactory implements BindingFactoryInterface
     }
 
     /**
+     * @param Request $request
+     *
      * @return AbstractBinding
      */
     public function getBindingByRequest(Request $request)
@@ -85,6 +89,8 @@ class BindingFactory implements BindingFactoryInterface
     }
 
     /**
+     * @param Request $request
+     *
      * @return string|null
      */
     public function detectBindingType(Request $request)
@@ -100,7 +106,9 @@ class BindingFactory implements BindingFactoryInterface
     }
 
     /**
-     * @return string|null
+     * @param Request $request
+     *
+     * @return null|string
      */
     protected function processGET(Request $request)
     {
@@ -115,7 +123,9 @@ class BindingFactory implements BindingFactoryInterface
     }
 
     /**
-     * @return string|null
+     * @param Request $request
+     *
+     * @return null|string
      */
     protected function processPOST(Request $request)
     {

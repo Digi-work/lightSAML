@@ -20,8 +20,11 @@ use Symfony\Component\HttpFoundation\Response;
 class SerializeOwnEntityAction extends AbstractProfileAction
 {
     /** @var string[] */
-    protected $supportedContextTypes = ['application/samlmetadata+xml', 'application/xml', 'text/xml'];
+    protected $supportedContextTypes = array('application/samlmetadata+xml', 'application/xml', 'text/xml');
 
+    /**
+     * @param ProfileContext $context
+     */
     protected function doExecute(ProfileContext $context)
     {
         $ownEntityDescriptor = $context->getOwnEntityDescriptor();
@@ -45,7 +48,7 @@ class SerializeOwnEntityAction extends AbstractProfileAction
             }
         }
 
-        $response->headers->replace(['Content-Type' => $contentType]);
+        $response->headers->replace(array('Content-Type' => $contentType));
 
         $context->getHttpResponseContext()->setResponse($response);
     }

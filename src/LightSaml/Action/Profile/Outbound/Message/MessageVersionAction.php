@@ -26,7 +26,8 @@ class MessageVersionAction extends AbstractProfileAction
     private $version;
 
     /**
-     * @param string $version
+     * @param LoggerInterface $logger
+     * @param string          $version
      */
     public function __construct(LoggerInterface $logger, $version)
     {
@@ -36,6 +37,8 @@ class MessageVersionAction extends AbstractProfileAction
     }
 
     /**
+     * @param ProfileContext $context
+     *
      * @return void
      */
     protected function doExecute(ProfileContext $context)

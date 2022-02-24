@@ -11,10 +11,10 @@
 
 namespace LightSaml\Model\Protocol;
 
-use LightSaml\Model\Assertion\Conditions;
-use LightSaml\Model\Assertion\Subject;
 use LightSaml\Model\Context\DeserializationContext;
 use LightSaml\Model\Context\SerializationContext;
+use LightSaml\Model\Assertion\Conditions;
+use LightSaml\Model\Assertion\Subject;
 use LightSaml\SamlConstants;
 
 class AuthnRequest extends AbstractRequest
@@ -76,7 +76,7 @@ class AuthnRequest extends AbstractRequest
     }
 
     /**
-     * @param string|null $providerName
+     * @param null|string $providerName
      *
      * @return AuthnRequest
      */
@@ -88,7 +88,7 @@ class AuthnRequest extends AbstractRequest
     }
 
     /**
-     * @return string|null
+     * @return null|string
      */
     public function getProviderName()
     {
@@ -96,7 +96,7 @@ class AuthnRequest extends AbstractRequest
     }
 
     /**
-     * @param string|null $protocolBinding
+     * @param null|string $protocolBinding
      *
      * @return AuthnRequest
      */
@@ -108,7 +108,7 @@ class AuthnRequest extends AbstractRequest
     }
 
     /**
-     * @return string|null
+     * @return null|string
      */
     public function getProtocolBinding()
     {
@@ -220,7 +220,7 @@ class AuthnRequest extends AbstractRequest
     }
 
     /**
-     * @param int|null $attributeConsumingServiceIndex
+     * @param null|int $attributeConsumingServiceIndex
      *
      * @return AuthnRequest
      */
@@ -234,7 +234,7 @@ class AuthnRequest extends AbstractRequest
     }
 
     /**
-     * @return int|null
+     * @return null|int
      */
     public function getAttributeConsumingServiceIndex()
     {
@@ -242,7 +242,7 @@ class AuthnRequest extends AbstractRequest
     }
 
     /**
-     * @param string|null $assertionConsumerServiceURL
+     * @param null|string $assertionConsumerServiceURL
      *
      * @return AuthnRequest
      */
@@ -254,7 +254,7 @@ class AuthnRequest extends AbstractRequest
     }
 
     /**
-     * @return string|null
+     * @return null|string
      */
     public function getAssertionConsumerServiceURL()
     {
@@ -262,7 +262,7 @@ class AuthnRequest extends AbstractRequest
     }
 
     /**
-     * @param int|null $assertionConsumerServiceIndex
+     * @param null|int $assertionConsumerServiceIndex
      *
      * @return AuthnRequest
      */
@@ -276,7 +276,7 @@ class AuthnRequest extends AbstractRequest
     }
 
     /**
-     * @return int|null
+     * @return null|int
      */
     public function getAssertionConsumerServiceIndex()
     {
@@ -286,6 +286,9 @@ class AuthnRequest extends AbstractRequest
     //endregion
 
     /**
+     * @param \DOMNode             $parent
+     * @param SerializationContext $context
+     *
      * @return void
      */
     public function serialize(\DOMNode $parent, SerializationContext $context)
@@ -294,32 +297,36 @@ class AuthnRequest extends AbstractRequest
 
         parent::serialize($result, $context);
 
-        $this->attributesToXml([
+        $this->attributesToXml(array(
                 'ForceAuthn', 'IsPassive', 'ProtocolBinding', 'AssertionConsumerServiceIndex',
                 'AssertionConsumerServiceURL', 'AttributeConsumingServiceIndex', 'ProviderName',
-            ], $result);
+            ), $result);
 
-        $this->singleElementsToXml(['Subject', 'NameIDPolicy', 'Conditions'], $result, $context);
+        $this->singleElementsToXml(array('Subject', 'NameIDPolicy', 'Conditions'), $result, $context);
 
         // must be last in order signature to include them all
-        $this->singleElementsToXml(['Signature'], $result, $context);
+        $this->singleElementsToXml(array('Signature'), $result, $context);
     }
 
+    /**
+     * @param \DOMNode               $node
+     * @param DeserializationContext $context
+     */
     public function deserialize(\DOMNode $node, DeserializationContext $context)
     {
         $this->checkXmlNodeName($node, 'AuthnRequest', SamlConstants::NS_PROTOCOL);
 
         parent::deserialize($node, $context);
 
-        $this->attributesFromXml($node, [
+        $this->attributesFromXml($node, array(
             'ForceAuthn', 'IsPassive', 'ProtocolBinding', 'AssertionConsumerServiceIndex',
             'AssertionConsumerServiceURL', 'AttributeConsumingServiceIndex', 'ProviderName',
-        ]);
+        ));
 
-        $this->singleElementsFromXml($node, $context, [
-            'Subject' => ['saml', 'LightSaml\Model\Assertion\Subject'],
-            'NameIDPolicy' => ['samlp', 'LightSaml\Model\Protocol\NameIDPolicy'],
-            'Conditions' => ['saml', 'LightSaml\Model\Assertion\Conditions'],
-        ]);
+        $this->singleElementsFromXml($node, $context, array(
+            'Subject' => array('saml', 'LightSaml\Model\Assertion\Subject'),
+            'NameIDPolicy' => array('samlp', 'LightSaml\Model\Protocol\NameIDPolicy'),
+            'Conditions' => array('saml', 'LightSaml\Model\Assertion\Conditions'),
+        ));
     }
 }

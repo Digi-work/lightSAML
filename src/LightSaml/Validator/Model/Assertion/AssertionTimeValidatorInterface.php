@@ -16,8 +16,9 @@ use LightSaml\Model\Assertion\Assertion;
 interface AssertionTimeValidatorInterface
 {
     /**
-     * @param int $now
-     * @param int $allowedSecondsSkew
+     * @param Assertion $assertion
+     * @param int       $now
+     * @param int       $allowedSecondsSkew
      *
      * @throws \LightSaml\Error\LightSamlValidationException
      *

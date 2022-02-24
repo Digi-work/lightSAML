@@ -24,7 +24,8 @@ class AssertionIssuerFormatValidatorAction extends AbstractAssertionAction
     private $expectedIssuerFormat = SamlConstants::NAME_ID_FORMAT_ENTITY;
 
     /**
-     * @param string $expectedIssuerFormat
+     * @param LoggerInterface $logger
+     * @param string          $expectedIssuerFormat
      */
     public function __construct(LoggerInterface $logger, $expectedIssuerFormat)
     {
@@ -33,6 +34,9 @@ class AssertionIssuerFormatValidatorAction extends AbstractAssertionAction
         $this->expectedIssuerFormat = $expectedIssuerFormat;
     }
 
+    /**
+     * @param AssertionContext $context
+     */
     protected function doExecute(AssertionContext $context)
     {
         if (null == $context->getAssertion()->getIssuer()) {
@@ -41,8 +45,7 @@ class AssertionIssuerFormatValidatorAction extends AbstractAssertionAction
             throw new LightSamlContextException($context, $message);
         }
 
-        if (
-            $context->getAssertion()->getIssuer()->getFormat() &&
+        if ($context->getAssertion()->getIssuer()->getFormat() &&
             $context->getAssertion()->getIssuer()->getFormat() != $this->expectedIssuerFormat
         ) {
             $message = sprintf(

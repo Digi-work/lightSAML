@@ -14,8 +14,8 @@ namespace LightSaml\Action\Profile;
 use LightSaml\Context\ContextInterface;
 use LightSaml\Context\Profile\AssertionContext;
 use LightSaml\Context\Profile\Helper\LogHelper;
-use LightSaml\Context\Profile\ProfileContext;
 use LightSaml\Context\Profile\ProfileContexts;
+use LightSaml\Context\Profile\ProfileContext;
 use LightSaml\Context\Profile\RequestStateContext;
 use LightSaml\Store\Request\RequestStateStoreInterface;
 use Psr\Log\LoggerInterface;
@@ -25,6 +25,10 @@ class FlushRequestStatesAction extends AbstractProfileAction
     /** @var RequestStateStoreInterface */
     protected $requestStore;
 
+    /**
+     * @param LoggerInterface            $logger
+     * @param RequestStateStoreInterface $requestStore
+     */
     public function __construct(LoggerInterface $logger, RequestStateStoreInterface $requestStore)
     {
         parent::__construct($logger);
@@ -33,6 +37,8 @@ class FlushRequestStatesAction extends AbstractProfileAction
     }
 
     /**
+     * @param ProfileContext $context
+     *
      * @return void
      */
     protected function doExecute(ProfileContext $context)
@@ -50,8 +56,7 @@ class FlushRequestStatesAction extends AbstractProfileAction
      */
     protected function flush($requestStateContext = null)
     {
-        if (
-            $requestStateContext instanceof RequestStateContext &&
+        if ($requestStateContext instanceof RequestStateContext &&
             $requestStateContext->getRequestState() &&
             $requestStateContext->getRequestState()->getId()
         ) {

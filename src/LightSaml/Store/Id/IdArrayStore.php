@@ -14,18 +14,19 @@ namespace LightSaml\Store\Id;
 class IdArrayStore implements IdStoreInterface
 {
     /** @var array */
-    protected $store = [];
+    protected $store = array();
 
     /**
-     * @param string $entityId
-     * @param string $id
+     * @param string    $entityId
+     * @param string    $id
+     * @param \DateTime $expiryTime
      *
      * @return void
      */
     public function set($entityId, $id, \DateTime $expiryTime)
     {
         if (false == isset($this->store[$entityId])) {
-            $this->store[$entityId] = [];
+            $this->store[$entityId] = array();
         }
         $this->store[$entityId][$id] = $expiryTime;
     }

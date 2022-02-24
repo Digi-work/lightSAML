@@ -23,20 +23,24 @@ class SubjectValidator implements SubjectValidatorInterface
     /** @var NameIdValidatorInterface */
     protected $nameIdValidator;
 
+    /**
+     * @param NameIdValidatorInterface $nameIdValidator
+     */
     public function __construct(NameIdValidatorInterface $nameIdValidator)
     {
         $this->nameIdValidator = $nameIdValidator;
     }
 
     /**
+     * @param Subject $subject
+     *
      * @throws LightSamlValidationException
      *
      * @return void
      */
     public function validateSubject(Subject $subject)
     {
-        if (
-            false == $subject->getNameID() &&
+        if (false == $subject->getNameID() &&
             false == $subject->getAllSubjectConfirmations()
         ) {
             throw new LightSamlValidationException('Subject MUST contain either an identifier or a subject confirmation');
@@ -52,6 +56,8 @@ class SubjectValidator implements SubjectValidatorInterface
     }
 
     /**
+     * @param SubjectConfirmation $subjectConfirmation
+     *
      * @throws \LightSaml\Error\LightSamlValidationException
      */
     protected function validateSubjectConfirmation(SubjectConfirmation $subjectConfirmation)
@@ -77,8 +83,7 @@ class SubjectValidator implements SubjectValidatorInterface
                 throw new LightSamlValidationException('Recipient of SubjectConfirmationData must be a wellformed absolute URI.');
             }
         }
-        if (
-            $subjectConfirmationData->getNotBeforeTimestamp() &&
+        if ($subjectConfirmationData->getNotBeforeTimestamp() &&
             $subjectConfirmationData->getNotOnOrAfterTimestamp() &&
             $subjectConfirmationData->getNotBeforeTimestamp() >= $subjectConfirmationData->getNotOnOrAfterTimestamp()
         ) {

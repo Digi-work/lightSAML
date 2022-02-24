@@ -29,6 +29,10 @@ class RepeatedIdValidatorAction extends AbstractAssertionAction
     /** @var IdStoreInterface */
     protected $idStore;
 
+    /**
+     * @param LoggerInterface  $logger
+     * @param IdStoreInterface $idStore
+     */
     public function __construct(LoggerInterface $logger, IdStoreInterface $idStore)
     {
         parent::__construct($logger);
@@ -37,6 +41,8 @@ class RepeatedIdValidatorAction extends AbstractAssertionAction
     }
 
     /**
+     * @param AssertionContext $context
+     *
      * @return void
      */
     protected function doExecute(AssertionContext $context)
@@ -47,6 +53,8 @@ class RepeatedIdValidatorAction extends AbstractAssertionAction
     }
 
     /**
+     * @param AssertionContext $context
+     *
      * @throws \LightSaml\Error\LightSamlContextException
      */
     protected function validateBearerAssertion(AssertionContext $context)
@@ -84,6 +92,8 @@ class RepeatedIdValidatorAction extends AbstractAssertionAction
     }
 
     /**
+     * @param AssertionContext $context
+     *
      * @throws \LogicException
      * @throws \LightSaml\Error\LightSamlValidationException
      *

@@ -21,7 +21,8 @@ use Symfony\Component\HttpFoundation\Request;
 class HttpPostBinding extends AbstractBinding
 {
     /**
-     * @param string|null $destination
+     * @param MessageContext $context
+     * @param null|string    $destination
      *
      * @return SamlPostResponse
      */
@@ -40,7 +41,7 @@ class HttpPostBinding extends AbstractBinding
 
         $type = $message instanceof AbstractRequest ? 'SAMLRequest' : 'SAMLResponse';
 
-        $data = [$type => $msgStr];
+        $data = array($type => $msgStr);
         if ($message->getRelayState()) {
             $data['RelayState'] = $message->getRelayState();
         }
@@ -51,6 +52,10 @@ class HttpPostBinding extends AbstractBinding
         return $result;
     }
 
+    /**
+     * @param Request        $request
+     * @param MessageContext $context
+     */
     public function receive(Request $request, MessageContext $context)
     {
         $post = $request->request->all();

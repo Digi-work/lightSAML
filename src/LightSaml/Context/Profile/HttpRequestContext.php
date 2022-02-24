@@ -27,6 +27,8 @@ class HttpRequestContext extends AbstractProfileContext
     }
 
     /**
+     * @param Request $request
+     *
      * @return HttpRequestContext
      */
     public function setRequest(Request $request)

@@ -282,7 +282,12 @@ class SsoSessionState implements \Serializable
             return $this->idpEntityId;
         }
 
-        throw new LightSamlException(sprintf('Party "%s" is not included in sso session between "%s" and "%s"', $partyId, $this->idpEntityId, $this->spEntityId));
+        throw new LightSamlException(sprintf(
+            'Party "%s" is not included in sso session between "%s" and "%s"',
+            $partyId,
+            $this->idpEntityId,
+            $this->spEntityId
+        ));
     }
 
     /**
@@ -290,7 +295,7 @@ class SsoSessionState implements \Serializable
      */
     public function serialize()
     {
-        return serialize([
+        return serialize(array(
             $this->idpEntityId,
             $this->spEntityId,
             $this->nameId,
@@ -301,7 +306,7 @@ class SsoSessionState implements \Serializable
             $this->lastAuthOn,
             [],
             $this->parameters,
-        ]);
+        ));
     }
 
     /**

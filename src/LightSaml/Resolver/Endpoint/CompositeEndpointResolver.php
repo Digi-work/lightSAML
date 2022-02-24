@@ -17,17 +17,19 @@ use LightSaml\Model\Metadata\EndpointReference;
 class CompositeEndpointResolver implements EndpointResolverInterface
 {
     /** @var EndpointResolverInterface[] */
-    protected $resolvers = [];
+    protected $resolvers = array();
 
     /**
      * @param EndpointResolverInterface[] $builders
      */
-    public function __construct(array $builders = [])
+    public function __construct(array $builders = array())
     {
         $this->resolvers = $builders;
     }
 
     /**
+     * @param EndpointResolverInterface $builder
+     *
      * @return CompositeEndpointResolver
      */
     public function add(EndpointResolverInterface $builder)
@@ -38,6 +40,7 @@ class CompositeEndpointResolver implements EndpointResolverInterface
     }
 
     /**
+     * @param CriteriaSet         $criteriaSet
      * @param EndpointReference[] $candidates
      *
      * @return EndpointReference[]

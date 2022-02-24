@@ -18,12 +18,14 @@ use LightSaml\SamlConstants;
 abstract class SSODescriptor extends RoleDescriptor
 {
     /** @var SingleLogoutService[] */
-    protected $singleLogoutServices = [];
+    protected $singleLogoutServices = array();
 
     /** @var string[]|null */
     protected $nameIDFormats;
 
     /**
+     * @param SingleLogoutService $singleLogoutService
+     *
      * @return SSODescriptor
      */
     public function addSingleLogoutService(SingleLogoutService $singleLogoutService)
@@ -48,7 +50,7 @@ abstract class SSODescriptor extends RoleDescriptor
      */
     public function getAllSingleLogoutServicesByBinding($binding)
     {
-        $result = [];
+        $result = array();
         foreach ($this->getAllSingleLogoutServices() as $svc) {
             if ($binding == $svc->getBinding()) {
                 $result[] = $svc;
@@ -87,7 +89,7 @@ abstract class SSODescriptor extends RoleDescriptor
     }
 
     /**
-     * @return string[]|null
+     * @return null|string[]
      */
     public function getAllNameIDFormats()
     {
@@ -112,6 +114,10 @@ abstract class SSODescriptor extends RoleDescriptor
         return false;
     }
 
+    /**
+     * @param \DOMNode             $parent
+     * @param SerializationContext $context
+     */
     public function serialize(\DOMNode $parent, SerializationContext $context)
     {
         parent::serialize($parent, $context);
@@ -120,6 +126,10 @@ abstract class SSODescriptor extends RoleDescriptor
         $this->manyElementsToXml($this->getAllNameIDFormats(), $parent, $context, 'NameIDFormat', SamlConstants::NS_METADATA);
     }
 
+    /**
+     * @param \DOMNode               $node
+     * @param DeserializationContext $context
+     */
     public function deserialize(\DOMNode $node, DeserializationContext $context)
     {
         parent::deserialize($node, $context);

@@ -38,6 +38,7 @@ class HttpRedirectBindingFunctionalTest extends BaseTestCase
                 $doc = new \DOMDocument();
                 $doc->loadXML($event->getSubject());
                 $this->assertEquals('AuthnRequest', $doc->firstChild->localName);
+
                 return $event;
             });
 
@@ -129,6 +130,7 @@ class HttpRedirectBindingFunctionalTest extends BaseTestCase
                 $doc = new \DOMDocument();
                 $doc->loadXML($event->getSubject());
                 $this->assertEquals('AuthnRequest', $doc->firstChild->localName);
+
                 return $event;
             });
 

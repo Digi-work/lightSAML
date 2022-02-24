@@ -96,9 +96,11 @@ class HelperTest extends BaseTestCase
         $this->assertEquals($timestamp, Helper::getTimestampFromValue($timestamp));
     }
 
+    /**
+     * @expectedException \InvalidArgumentException
+     */
     public function test__get_timestamp_from_value_with_invalid_value()
     {
-        $this->expectException(\InvalidArgumentException::class);
         Helper::getTimestampFromValue(array());
     }
 
@@ -114,9 +116,11 @@ class HelperTest extends BaseTestCase
         $this->assertEquals(32, strlen($random));
     }
 
+    /**
+     * @expectedException \InvalidArgumentException
+     */
     public function test__generate_random_bytes_error_on_invalid_length()
     {
-        $this->expectException(\InvalidArgumentException::class);
         Helper::generateRandomBytes('');
     }
 

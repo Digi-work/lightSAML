@@ -25,8 +25,9 @@ class RequestStateSessionStore extends AbstractRequestStateArrayStore
     protected $prefix;
 
     /**
-     * @param string $providerId
-     * @param string $prefix
+     * @param SessionInterface $session
+     * @param string           $providerId
+     * @param string           $prefix
      */
     public function __construct(SessionInterface $session, $providerId, $prefix = 'saml_request_state_')
     {
@@ -48,10 +49,12 @@ class RequestStateSessionStore extends AbstractRequestStateArrayStore
      */
     protected function getArray()
     {
-        return $this->session->get($this->getKey(), []);
+        return $this->session->get($this->getKey(), array());
     }
 
     /**
+     * @param array $arr
+     *
      * @return AbstractRequestStateArrayStore
      */
     protected function setArray(array $arr)

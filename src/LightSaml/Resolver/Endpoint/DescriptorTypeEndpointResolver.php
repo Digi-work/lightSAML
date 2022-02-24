@@ -23,6 +23,7 @@ use LightSaml\Resolver\Endpoint\Criteria\DescriptorTypeCriteria;
 class DescriptorTypeEndpointResolver implements EndpointResolverInterface
 {
     /**
+     * @param CriteriaSet         $criteriaSet
      * @param EndpointReference[] $candidates
      *
      * @return EndpointReference[]
@@ -33,7 +34,7 @@ class DescriptorTypeEndpointResolver implements EndpointResolverInterface
             return $candidates;
         }
 
-        $result = [];
+        $result = array();
         /** @var DescriptorTypeCriteria $descriptorTypeCriteria */
         foreach ($criteriaSet->get(DescriptorTypeCriteria::class) as $descriptorTypeCriteria) {
             foreach ($candidates as $endpointReference) {

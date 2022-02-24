@@ -23,6 +23,10 @@ class KnownAssertionIssuerAction extends AbstractAssertionAction
     /** @var EntityDescriptorStoreInterface */
     private $idpEntityDescriptorProvider;
 
+    /**
+     * @param LoggerInterface                $logger
+     * @param EntityDescriptorStoreInterface $idpEntityDescriptorProvider
+     */
     public function __construct(LoggerInterface $logger, EntityDescriptorStoreInterface $idpEntityDescriptorProvider)
     {
         parent::__construct($logger);
@@ -31,6 +35,8 @@ class KnownAssertionIssuerAction extends AbstractAssertionAction
     }
 
     /**
+     * @param AssertionContext $context
+     *
      * @return void
      */
     protected function doExecute(AssertionContext $context)

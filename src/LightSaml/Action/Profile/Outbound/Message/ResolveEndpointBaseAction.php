@@ -14,7 +14,6 @@ namespace LightSaml\Action\Profile\Outbound\Message;
 use LightSaml\Action\Profile\AbstractProfileAction;
 use LightSaml\Context\Profile\Helper\LogHelper;
 use LightSaml\Context\Profile\ProfileContext;
-use LightSaml\Criteria\CriteriaSet;
 use LightSaml\Error\LightSamlContextException;
 use LightSaml\Model\Metadata\EndpointReference;
 use LightSaml\Model\Metadata\IdpSsoDescriptor;
@@ -26,6 +25,7 @@ use LightSaml\Resolver\Endpoint\Criteria\IndexCriteria;
 use LightSaml\Resolver\Endpoint\Criteria\LocationCriteria;
 use LightSaml\Resolver\Endpoint\Criteria\ServiceTypeCriteria;
 use LightSaml\Resolver\Endpoint\EndpointResolverInterface;
+use LightSaml\Criteria\CriteriaSet;
 use LightSaml\SamlConstants;
 use Psr\Log\LoggerInterface;
 
@@ -37,6 +37,10 @@ abstract class ResolveEndpointBaseAction extends AbstractProfileAction
     /** @var EndpointResolverInterface */
     protected $endpointResolver;
 
+    /**
+     * @param LoggerInterface           $logger
+     * @param EndpointResolverInterface $endpointResolver
+     */
     public function __construct(LoggerInterface $logger, EndpointResolverInterface $endpointResolver)
     {
         parent::__construct($logger);
@@ -44,6 +48,9 @@ abstract class ResolveEndpointBaseAction extends AbstractProfileAction
         $this->endpointResolver = $endpointResolver;
     }
 
+    /**
+     * @param ProfileContext $context
+     */
     protected function doExecute(ProfileContext $context)
     {
         if ($context->getEndpointContext()->getEndpoint()) {
@@ -53,10 +60,10 @@ abstract class ResolveEndpointBaseAction extends AbstractProfileAction
                     $context->getEndpoint()->getLocation(),
                     $context->getEndpoint()->getBinding()
                 ),
-                LogHelper::getActionContext($context, $this, [
+                LogHelper::getActionContext($context, $this, array(
                     'endpointLocation' => $context->getEndpoint()->getLocation(),
                     'endpointBinding' => $context->getEndpoint()->getBinding(),
-                ])
+                ))
             );
 
             return;
@@ -93,16 +100,18 @@ abstract class ResolveEndpointBaseAction extends AbstractProfileAction
                 $endpointReference->getEndpoint()->getLocation(),
                 $endpointReference->getEndpoint()->getBinding()
             ),
-            LogHelper::getActionContext($context, $this, [
+            LogHelper::getActionContext($context, $this, array(
                 'endpointLocation' => $endpointReference->getEndpoint()->getLocation(),
                 'endpointBinding' => $endpointReference->getEndpoint()->getBinding(),
-            ])
+            ))
         );
 
         $context->getEndpointContext()->setEndpoint($endpointReference->getEndpoint());
     }
 
     /**
+     * @param ProfileContext $context
+     *
      * @return CriteriaSet
      */
     protected function getCriteriaSet(ProfileContext $context)
@@ -128,17 +137,21 @@ abstract class ResolveEndpointBaseAction extends AbstractProfileAction
     }
 
     /**
+     * @param ProfileContext $context
+     *
      * @return string[]
      */
     protected function getBindings(ProfileContext $context)
     {
-        return [
+        return array(
             SamlConstants::BINDING_SAML2_HTTP_POST,
             SamlConstants::BINDING_SAML2_HTTP_REDIRECT,
-        ];
+        );
     }
 
     /**
+     * @param ProfileContext $context
+     *
      * @return string|null
      */
     protected function getDescriptorType(ProfileContext $context)
@@ -149,6 +162,8 @@ abstract class ResolveEndpointBaseAction extends AbstractProfileAction
     }
 
     /**
+     * @param ProfileContext $context
+     *
      * @return string|null
      */
     protected function getServiceType(ProfileContext $context)

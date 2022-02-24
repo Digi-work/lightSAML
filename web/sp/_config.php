@@ -4,7 +4,7 @@ require_once __DIR__.'/../../vendor/autoload.php';
 
 class SpConfig
 {
-    public const OWN_ENTITY_ID = 'https://localhost/lightSAML/lightSAML';
+    const OWN_ENTITY_ID = 'https://localhost/lightSAML/lightSAML';
 
     /** @var  \SpConfig */
     private static $instance;

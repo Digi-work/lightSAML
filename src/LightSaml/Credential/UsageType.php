@@ -13,9 +13,9 @@ namespace LightSaml\Credential;
 
 abstract class UsageType
 {
-    public const ENCRYPTION = 'encryption';
+    const ENCRYPTION = 'encryption';
 
-    public const SIGNING = 'signing';
+    const SIGNING = 'signing';
 
-    public const UNSPECIFIED = null;
+    const UNSPECIFIED = null;
 }

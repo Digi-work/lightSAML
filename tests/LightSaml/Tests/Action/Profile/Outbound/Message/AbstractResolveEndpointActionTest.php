@@ -32,7 +32,7 @@ abstract class AbstractResolveEndpointActionTest extends BaseTestCase
     /**
      *
      */
-    protected function setUp() : void
+    protected function setUp()
     {
         $this->logger = $this->getLoggerMock();
         $this->endpointResolver = $this->getMockBuilder(EndpointResolverInterface::class)->getMock();

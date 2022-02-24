@@ -88,6 +88,8 @@ class SignatureStringReader extends AbstractSignatureReader
     }
 
     /**
+     * @param XMLSecurityKey $key
+     *
      * @return bool True if validated, False if validation was not performed
      *
      * @throws LightSamlSecurityException If validation fails
@@ -110,6 +112,9 @@ class SignatureStringReader extends AbstractSignatureReader
     }
 
     /**
+     * @param \DOMNode             $parent
+     * @param SerializationContext $context
+     *
      * @throws \LogicException
      */
     public function serialize(\DOMNode $parent, SerializationContext $context)
@@ -117,6 +122,10 @@ class SignatureStringReader extends AbstractSignatureReader
         throw new \LogicException('SignatureStringReader can not be serialized');
     }
 
+    /**
+     * @param \DOMNode               $node
+     * @param DeserializationContext $context
+     */
     public function deserialize(\DOMNode $node, DeserializationContext $context)
     {
         throw new \LogicException('SignatureStringReader can not be deserialized');

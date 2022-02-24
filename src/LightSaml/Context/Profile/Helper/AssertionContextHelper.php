@@ -18,6 +18,8 @@ use LightSaml\Model\Assertion\EncryptedAssertionReader;
 abstract class AssertionContextHelper
 {
     /**
+     * @param AssertionContext $context
+     *
      * @return EncryptedAssertionReader
      */
     public static function getEncryptedAssertionReader(AssertionContext $context)

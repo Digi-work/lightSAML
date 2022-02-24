@@ -26,6 +26,11 @@ class MetadataCredentialContext implements CredentialContextInterface
     /** @var EntityDescriptor */
     protected $entityDescriptor;
 
+    /**
+     * @param KeyDescriptor    $keyDescriptor
+     * @param RoleDescriptor   $roleDescriptor
+     * @param EntityDescriptor $entityDescriptor
+     */
     public function __construct(KeyDescriptor $keyDescriptor, RoleDescriptor $roleDescriptor, EntityDescriptor $entityDescriptor)
     {
         $this->entityDescriptor = $entityDescriptor;

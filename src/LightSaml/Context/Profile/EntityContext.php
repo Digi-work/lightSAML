@@ -54,6 +54,8 @@ class EntityContext extends AbstractProfileContext
     }
 
     /**
+     * @param EntityDescriptor $entityDescriptor
+     *
      * @return EntityContext
      */
     public function setEntityDescriptor(EntityDescriptor $entityDescriptor)
@@ -72,6 +74,8 @@ class EntityContext extends AbstractProfileContext
     }
 
     /**
+     * @param TrustOptions $trustOptions
+     *
      * @return EntityContext
      */
     public function setTrustOptions(TrustOptions $trustOptions)

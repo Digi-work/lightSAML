@@ -16,9 +16,9 @@ use LightSaml\Error\LightSamlXmlException;
 use LightSaml\Model\Context\DeserializationContext;
 use LightSaml\Model\Context\SerializationContext;
 use LightSaml\SamlConstants;
-use RobRichards\XMLSecLibs\XMLSecEnc;
-use RobRichards\XMLSecLibs\XMLSecurityDSig;
 use RobRichards\XMLSecLibs\XMLSecurityKey;
+use RobRichards\XMLSecLibs\XMLSecurityDSig;
+use RobRichards\XMLSecLibs\XMLSecEnc;
 
 class SignatureXmlReader extends AbstractSignatureReader
 {
@@ -26,7 +26,7 @@ class SignatureXmlReader extends AbstractSignatureReader
     protected $signature;
 
     /** @var string[] */
-    protected $certificates = [];
+    protected $certificates = array();
 
     /**
      * @param string $certificate
@@ -44,6 +44,9 @@ class SignatureXmlReader extends AbstractSignatureReader
         return $this->certificates;
     }
 
+    /**
+     * @param XMLSecurityDSig $signature
+     */
     public function setSignature(XMLSecurityDSig $signature)
     {
         $this->signature = $signature;
@@ -58,6 +61,8 @@ class SignatureXmlReader extends AbstractSignatureReader
     }
 
     /**
+     * @param XMLSecurityKey $key
+     *
      * @return bool
      *
      * @throws LightSamlSecurityException
@@ -110,6 +115,9 @@ class SignatureXmlReader extends AbstractSignatureReader
     }
 
     /**
+     * @param \DOMNode             $parent
+     * @param SerializationContext $context
+     *
      * @throws \LogicException
      */
     public function serialize(\DOMNode $parent, SerializationContext $context)
@@ -118,6 +126,9 @@ class SignatureXmlReader extends AbstractSignatureReader
     }
 
     /**
+     * @param \DOMNode               $node
+     * @param DeserializationContext $context
+     *
      * @throws \Exception
      */
     public function deserialize(\DOMNode $node, DeserializationContext $context)
@@ -130,17 +141,17 @@ class SignatureXmlReader extends AbstractSignatureReader
         $this->signature->canonicalizeSignedInfo();
 
         $this->key = null;
-        $key = new XMLSecurityKey(XMLSecurityKey::RSA_SHA1, ['type' => 'public']);
+        $key = new XMLSecurityKey(XMLSecurityKey::RSA_SHA1, array('type' => 'public'));
         XMLSecEnc::staticLocateKeyInfo($key, $node);
         if ($key->name || $key->key) {
             $this->key = $key;
         }
 
-        $this->certificates = [];
+        $this->certificates = array();
         $list = $context->getXpath()->query('./ds:KeyInfo/ds:X509Data/ds:X509Certificate', $node);
         foreach ($list as $certNode) {
             $certData = trim($certNode->textContent);
-            $certData = str_replace(["\r", "\n", "\t", ' '], '', $certData);
+            $certData = str_replace(array("\r", "\n", "\t", ' '), '', $certData);
             $this->certificates[] = $certData;
         }
     }

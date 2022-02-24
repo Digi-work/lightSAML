@@ -25,6 +25,10 @@ class SaveRequestStateAction extends AbstractProfileAction
     /** @var RequestStateStoreInterface */
     protected $requestStore;
 
+    /**
+     * @param LoggerInterface            $logger
+     * @param RequestStateStoreInterface $requestStore
+     */
     public function __construct(LoggerInterface $logger, RequestStateStoreInterface $requestStore)
     {
         parent::__construct($logger);
@@ -32,6 +36,9 @@ class SaveRequestStateAction extends AbstractProfileAction
         $this->requestStore = $requestStore;
     }
 
+    /**
+     * @param ProfileContext $context
+     */
     protected function doExecute(ProfileContext $context)
     {
         $message = MessageContextHelper::asSamlMessage($context->getOutboundContext());

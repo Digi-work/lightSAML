@@ -11,9 +11,9 @@
 
 namespace LightSaml\Model\Assertion;
 
-use LightSaml\Model\AbstractSamlModel;
 use LightSaml\Model\Context\DeserializationContext;
 use LightSaml\Model\Context\SerializationContext;
+use LightSaml\Model\AbstractSamlModel;
 use LightSaml\SamlConstants;
 
 class SubjectConfirmation extends AbstractSamlModel
@@ -51,6 +51,8 @@ class SubjectConfirmation extends AbstractSamlModel
     }
 
     /**
+     * @param EncryptedElement|null $encryptedId
+     *
      * @return SubjectConfirmation
      */
     public function setEncryptedId(EncryptedElement $encryptedId = null)
@@ -69,6 +71,8 @@ class SubjectConfirmation extends AbstractSamlModel
     }
 
     /**
+     * @param NameID|null $nameId
+     *
      * @return SubjectConfirmation
      */
     public function setNameID(NameID $nameId = null)
@@ -87,6 +91,8 @@ class SubjectConfirmation extends AbstractSamlModel
     }
 
     /**
+     * @param SubjectConfirmationData|null $subjectConfirmationData
+     *
      * @return SubjectConfirmation
      */
     public function setSubjectConfirmationData(SubjectConfirmationData $subjectConfirmationData = null)
@@ -105,31 +111,38 @@ class SubjectConfirmation extends AbstractSamlModel
     }
 
     /**
+     * @param \DOMNode             $parent
+     * @param SerializationContext $context
+     *
      * @return void
      */
     public function serialize(\DOMNode $parent, SerializationContext $context)
     {
         $result = $this->createElement('SubjectConfirmation', SamlConstants::NS_ASSERTION, $parent, $context);
 
-        $this->attributesToXml(['Method'], $result);
+        $this->attributesToXml(array('Method'), $result);
 
         $this->singleElementsToXml(
-            ['NameID', 'EncryptedID', 'SubjectConfirmationData'],
+            array('NameID', 'EncryptedID', 'SubjectConfirmationData'),
             $result,
             $context
         );
     }
 
+    /**
+     * @param \DOMNode               $node
+     * @param DeserializationContext $context
+     */
     public function deserialize(\DOMNode $node, DeserializationContext $context)
     {
         $this->checkXmlNodeName($node, 'SubjectConfirmation', SamlConstants::NS_ASSERTION);
 
-        $this->attributesFromXml($node, ['Method']);
+        $this->attributesFromXml($node, array('Method'));
 
-        $this->singleElementsFromXml($node, $context, [
-            'NameID' => ['saml', 'LightSaml\Model\Assertion\NameID'],
-            'EncryptedID' => ['saml', 'LightSaml\Model\Assertion\EncryptedID'],
-            'SubjectConfirmationData' => ['saml', 'LightSaml\Model\Assertion\SubjectConfirmationData'],
-        ]);
+        $this->singleElementsFromXml($node, $context, array(
+            'NameID' => array('saml', 'LightSaml\Model\Assertion\NameID'),
+            'EncryptedID' => array('saml', 'LightSaml\Model\Assertion\EncryptedID'),
+            'SubjectConfirmationData' => array('saml', 'LightSaml\Model\Assertion\SubjectConfirmationData'),
+        ));
     }
 }

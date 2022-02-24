@@ -15,6 +15,10 @@ class KnownAssertionIssuerActionTest extends BaseTestCase
         $this->assertTrue(true);
     }
 
+    /**
+     * @expectedException \LightSaml\Error\LightSamlContextException
+     * @expectedExceptionMessage Assertion element must have an issuer element
+     */
     public function test_throws_context_exception_when_assertion_has_no_issuer()
     {
         $action = new KnownAssertionIssuerAction(
@@ -28,15 +32,15 @@ class KnownAssertionIssuerActionTest extends BaseTestCase
             ->method('error')
             ->with('Assertion element must have an issuer element');
 
-        $this->expectException(\LightSaml\Error\LightSamlContextException::class);
-        $this->expectExceptionMessage("Assertion element must have an issuer element");
-
         $action->execute($context);
     }
 
+    /**
+     * @expectedException \LightSaml\Error\LightSamlContextException
+     * @expectedExceptionMessage Unknown issuer 'http://issuer.com'
+     */
     public function test_throws_context_exception_on_unknown_issuer()
     {
-
         $action = new KnownAssertionIssuerAction(
             $loggerMock = $this->getLoggerMock(),
             $entityDescriptorStoreMock = $this->getEntityDescriptorStoreMock()
@@ -53,9 +57,6 @@ class KnownAssertionIssuerActionTest extends BaseTestCase
         $loggerMock->expects($this->once())
             ->method('error')
             ->with("Unknown issuer 'http://issuer.com'");
-
-        $this->expectExceptionMessage("Unknown issuer 'http://issuer.com'");
-        $this->expectException(\LightSaml\Error\LightSamlContextException::class);
 
         $action->execute($context);
     }

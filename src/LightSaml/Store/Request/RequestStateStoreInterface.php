@@ -16,6 +16,8 @@ use LightSaml\State\Request\RequestState;
 interface RequestStateStoreInterface
 {
     /**
+     * @param RequestState $state
+     *
      * @return RequestStateStoreInterface
      */
     public function set(RequestState $state);

@@ -27,6 +27,8 @@ class HttpResponseContext extends AbstractProfileContext
     }
 
     /**
+     * @param Response $response
+     *
      * @return HttpResponseContext
      */
     public function setResponse(Response $response)

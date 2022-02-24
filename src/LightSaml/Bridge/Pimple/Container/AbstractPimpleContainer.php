@@ -18,6 +18,9 @@ abstract class AbstractPimpleContainer
     /** @var Container */
     protected $pimple;
 
+    /**
+     * @param Container $pimple
+     */
     public function __construct(Container $pimple)
     {
         $this->pimple = $pimple;

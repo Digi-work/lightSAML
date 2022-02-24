@@ -12,9 +12,9 @@
 namespace LightSaml\Model\Assertion;
 
 use LightSaml\Helper;
-use LightSaml\Model\AbstractSamlModel;
 use LightSaml\Model\Context\DeserializationContext;
 use LightSaml\Model\Context\SerializationContext;
+use LightSaml\Model\AbstractSamlModel;
 use LightSaml\SamlConstants;
 
 class SubjectConfirmationData extends AbstractSamlModel
@@ -35,7 +35,7 @@ class SubjectConfirmationData extends AbstractSamlModel
     protected $recipient;
 
     /**
-     * @param string|null $address
+     * @param null|string $address
      *
      * @return SubjectConfirmationData
      */
@@ -47,7 +47,7 @@ class SubjectConfirmationData extends AbstractSamlModel
     }
 
     /**
-     * @return string|null
+     * @return null|string
      */
     public function getAddress()
     {
@@ -55,7 +55,7 @@ class SubjectConfirmationData extends AbstractSamlModel
     }
 
     /**
-     * @param string|null $inResponseTo
+     * @param null|string $inResponseTo
      *
      * @return SubjectConfirmationData
      */
@@ -67,7 +67,7 @@ class SubjectConfirmationData extends AbstractSamlModel
     }
 
     /**
-     * @return string|null
+     * @return null|string
      */
     public function getInResponseTo()
     {
@@ -112,7 +112,7 @@ class SubjectConfirmationData extends AbstractSamlModel
     public function getNotBeforeDateTime()
     {
         if ($this->notBefore) {
-            return new \DateTime('@' . $this->notBefore);
+            return new \DateTime('@'.$this->notBefore);
         }
 
         return;
@@ -156,14 +156,14 @@ class SubjectConfirmationData extends AbstractSamlModel
     public function getNotOnOrAfterDateTime()
     {
         if ($this->notOnOrAfter) {
-            return new \DateTime('@' . $this->notOnOrAfter);
+            return new \DateTime('@'.$this->notOnOrAfter);
         }
 
         return;
     }
 
     /**
-     * @param string|null $recipient
+     * @param null|string $recipient
      *
      * @return SubjectConfirmationData
      */
@@ -175,7 +175,7 @@ class SubjectConfirmationData extends AbstractSamlModel
     }
 
     /**
-     * @return string|null
+     * @return null|string
      */
     public function getRecipient()
     {
@@ -183,6 +183,9 @@ class SubjectConfirmationData extends AbstractSamlModel
     }
 
     /**
+     * @param \DOMNode             $parent
+     * @param SerializationContext $context
+     *
      * @return void
      */
     public function serialize(\DOMNode $parent, SerializationContext $context)
@@ -190,17 +193,21 @@ class SubjectConfirmationData extends AbstractSamlModel
         $result = $this->createElement('SubjectConfirmationData', SamlConstants::NS_ASSERTION, $parent, $context);
 
         $this->attributesToXml(
-            ['InResponseTo', 'NotBefore', 'NotOnOrAfter', 'Address', 'Recipient'],
+            array('InResponseTo', 'NotBefore', 'NotOnOrAfter', 'Address', 'Recipient'),
             $result
         );
     }
 
+    /**
+     * @param \DOMNode               $node
+     * @param DeserializationContext $context
+     */
     public function deserialize(\DOMNode $node, DeserializationContext $context)
     {
         $this->checkXmlNodeName($node, 'SubjectConfirmationData', SamlConstants::NS_ASSERTION);
 
-        $this->attributesFromXml($node, [
+        $this->attributesFromXml($node, array(
             'InResponseTo', 'NotBefore', 'NotOnOrAfter', 'Address', 'Recipient',
-        ]);
+        ));
     }
 }

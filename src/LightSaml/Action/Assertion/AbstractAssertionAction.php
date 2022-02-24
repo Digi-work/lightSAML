@@ -22,11 +22,17 @@ abstract class AbstractAssertionAction implements ActionInterface
     /** @var LoggerInterface */
     protected $logger;
 
+    /**
+     * @param LoggerInterface $logger
+     */
     public function __construct(LoggerInterface $logger)
     {
         $this->logger = $logger;
     }
 
+    /**
+     * @param ContextInterface $context
+     */
     public function execute(ContextInterface $context)
     {
         if ($context instanceof AssertionContext) {
@@ -36,5 +42,8 @@ abstract class AbstractAssertionAction implements ActionInterface
         }
     }
 
+    /**
+     * @param AssertionContext $context
+     */
     abstract protected function doExecute(AssertionContext $context);
 }

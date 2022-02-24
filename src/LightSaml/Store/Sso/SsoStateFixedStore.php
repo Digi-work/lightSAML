@@ -31,6 +31,8 @@ class SsoStateFixedStore implements SsoStateStoreInterface
     }
 
     /**
+     * @param SsoState $ssoState
+     *
      * @return void
      */
     public function set(SsoState $ssoState)

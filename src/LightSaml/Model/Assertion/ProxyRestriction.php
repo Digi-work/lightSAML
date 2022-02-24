@@ -45,7 +45,7 @@ class ProxyRestriction extends AbstractCondition
     public function addAudience($audience)
     {
         if (false == is_array($this->audience)) {
-            $this->audience = [];
+            $this->audience = array();
         }
         $this->audience[] = (string) $audience;
 
@@ -53,7 +53,7 @@ class ProxyRestriction extends AbstractCondition
     }
 
     /**
-     * @return \string[]|null
+     * @return null|\string[]
      */
     public function getAllAudience()
     {
@@ -81,22 +81,29 @@ class ProxyRestriction extends AbstractCondition
     }
 
     /**
+     * @param \DOMNode             $parent
+     * @param SerializationContext $context
+     *
      * @return void
      */
     public function serialize(\DOMNode $parent, SerializationContext $context)
     {
         $result = $this->createElement('ProxyRestriction', SamlConstants::NS_ASSERTION, $parent, $context);
 
-        $this->attributesToXml(['count'], $result);
+        $this->attributesToXml(array('count'), $result);
 
         $this->manyElementsToXml($this->getAllAudience(), $result, $context, 'Audience');
     }
 
+    /**
+     * @param \DOMNode               $node
+     * @param DeserializationContext $context
+     */
     public function deserialize(\DOMNode $node, DeserializationContext $context)
     {
         $this->checkXmlNodeName($node, 'ProxyRestriction', SamlConstants::NS_ASSERTION);
 
-        $this->attributesFromXml($node, ['count']);
+        $this->attributesFromXml($node, array('count'));
 
         $this->manyElementsFromXml($node, $context, 'Audience', 'saml', null, 'addAudience');
     }

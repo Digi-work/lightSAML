@@ -70,15 +70,23 @@ class IndexedEndpoint extends Endpoint
         return $this->index;
     }
 
+    /**
+     * @param \DOMNode             $parent
+     * @param SerializationContext $context
+     */
     public function serialize(\DOMNode $parent, SerializationContext $context)
     {
-        $this->attributesToXml(['index', 'isDefault'], $parent);
+        $this->attributesToXml(array('index', 'isDefault'), $parent);
         parent::serialize($parent, $context);
     }
 
+    /**
+     * @param \DOMNode               $node
+     * @param DeserializationContext $context
+     */
     public function deserialize(\DOMNode $node, DeserializationContext $context)
     {
-        $this->attributesFromXml($node, ['index', 'isDefault']);
+        $this->attributesFromXml($node, array('index', 'isDefault'));
 
         parent::deserialize($node, $context);
     }

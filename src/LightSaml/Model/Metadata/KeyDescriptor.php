@@ -11,17 +11,17 @@
 
 namespace LightSaml\Model\Metadata;
 
-use LightSaml\Credential\X509Certificate;
 use LightSaml\Error\LightSamlXmlException;
-use LightSaml\Model\AbstractSamlModel;
 use LightSaml\Model\Context\DeserializationContext;
 use LightSaml\Model\Context\SerializationContext;
+use LightSaml\Model\AbstractSamlModel;
 use LightSaml\SamlConstants;
+use LightSaml\Credential\X509Certificate;
 
 class KeyDescriptor extends AbstractSamlModel
 {
-    public const USE_SIGNING = 'signing';
-    public const USE_ENCRYPTION = 'encryption';
+    const USE_SIGNING = 'signing';
+    const USE_ENCRYPTION = 'encryption';
 
     /** @var string */
     protected $use;
@@ -30,7 +30,8 @@ class KeyDescriptor extends AbstractSamlModel
     private $certificate;
 
     /**
-     * @param string|null $use
+     * @param string|null          $use
+     * @param X509Certificate|null $certificate
      */
     public function __construct($use = null, X509Certificate $certificate = null)
     {
@@ -65,6 +66,8 @@ class KeyDescriptor extends AbstractSamlModel
     }
 
     /**
+     * @param X509Certificate $certificate
+     *
      * @return KeyDescriptor
      */
     public function setCertificate(X509Certificate $certificate)
@@ -83,13 +86,16 @@ class KeyDescriptor extends AbstractSamlModel
     }
 
     /**
+     * @param \DOMNode             $parent
+     * @param SerializationContext $context
+     *
      * @return void
      */
     public function serialize(\DOMNode $parent, SerializationContext $context)
     {
         $result = $this->createElement('KeyDescriptor', SamlConstants::NS_METADATA, $parent, $context);
 
-        $this->attributesToXml(['use'], $result);
+        $this->attributesToXml(array('use'), $result);
 
         $keyInfo = $this->createElement('ds:KeyInfo', SamlConstants::NS_XMLDSIG, $result, $context);
         $xData = $this->createElement('ds:X509Data', SamlConstants::NS_XMLDSIG, $keyInfo, $context);
@@ -98,11 +104,15 @@ class KeyDescriptor extends AbstractSamlModel
         $xCert->nodeValue = $this->getCertificate()->getData();
     }
 
+    /**
+     * @param \DOMNode               $node
+     * @param DeserializationContext $context
+     */
     public function deserialize(\DOMNode $node, DeserializationContext $context)
     {
         $this->checkXmlNodeName($node, 'KeyDescriptor', SamlConstants::NS_METADATA);
 
-        $this->attributesFromXml($node, ['use']);
+        $this->attributesFromXml($node, array('use'));
 
         $list = $context->getXpath()->query('./ds:KeyInfo/ds:X509Data/ds:X509Certificate', $node);
         if (1 != $list->length) {

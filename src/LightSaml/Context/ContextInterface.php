@@ -24,13 +24,15 @@ interface ContextInterface extends \IteratorAggregate
     public function getTopParent();
 
     /**
+     * @param ContextInterface|null $parent
+     *
      * @return ContextInterface
      */
     public function setParent(ContextInterface $parent = null);
 
     /**
      * @param string      $name
-     * @param string|null $class
+     * @param null|string $class
      *
      * @return ContextInterface|null
      */

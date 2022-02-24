@@ -30,6 +30,8 @@ class LogoutContext extends AbstractProfileContext
     }
 
     /**
+     * @param SsoSessionState $ssoSessionState
+     *
      * @return LogoutContext
      */
     public function setSsoSessionState(SsoSessionState $ssoSessionState)

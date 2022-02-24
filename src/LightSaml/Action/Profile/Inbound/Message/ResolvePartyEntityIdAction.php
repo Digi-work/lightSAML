@@ -34,6 +34,12 @@ class ResolvePartyEntityIdAction extends AbstractProfileAction
     /** @var TrustOptionsStoreInterface */
     protected $trustOptionsProvider;
 
+    /**
+     * @param LoggerInterface                $logger
+     * @param EntityDescriptorStoreInterface $spEntityDescriptorProvider
+     * @param EntityDescriptorStoreInterface $idpEntityDescriptorProvider
+     * @param TrustOptionsStoreInterface     $trustOptionsProvider
+     */
     public function __construct(
         LoggerInterface $logger,
         EntityDescriptorStoreInterface $spEntityDescriptorProvider,
@@ -47,6 +53,9 @@ class ResolvePartyEntityIdAction extends AbstractProfileAction
         $this->trustOptionsProvider = $trustOptionsProvider;
     }
 
+    /**
+     * @param ProfileContext $context
+     */
     protected function doExecute(ProfileContext $context)
     {
         $partyContext = $context->getPartyEntityContext();
@@ -54,9 +63,9 @@ class ResolvePartyEntityIdAction extends AbstractProfileAction
         if ($partyContext->getEntityDescriptor() && $partyContext->getTrustOptions()) {
             $this->logger->debug(
                 sprintf('Party EntityDescriptor and TrustOptions already set for "%s"', $partyContext->getEntityDescriptor()->getEntityID()),
-                LogHelper::getActionContext($context, $this, [
+                LogHelper::getActionContext($context, $this, array(
                     'partyEntityId' => $partyContext->getEntityDescriptor()->getEntityID(),
-                ])
+                ))
             );
 
             return;
@@ -81,9 +90,9 @@ class ResolvePartyEntityIdAction extends AbstractProfileAction
             $partyContext->setEntityDescriptor($partyEntityDescriptor);
             $this->logger->debug(
                 sprintf('Known issuer resolved: "%s"', $partyEntityDescriptor->getEntityID()),
-                LogHelper::getActionContext($context, $this, [
+                LogHelper::getActionContext($context, $this, array(
                     'partyEntityId' => $partyEntityDescriptor->getEntityID(),
-                ])
+                ))
             );
         }
 
@@ -97,7 +106,9 @@ class ResolvePartyEntityIdAction extends AbstractProfileAction
     }
 
     /**
-     * @param string $entityId
+     * @param ProfileContext                 $context
+     * @param EntityDescriptorStoreInterface $entityDescriptorProvider
+     * @param string                         $entityId
      *
      * @return \LightSaml\Model\Metadata\EntityDescriptor
      */

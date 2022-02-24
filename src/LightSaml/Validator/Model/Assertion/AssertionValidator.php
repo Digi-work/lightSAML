@@ -36,6 +36,11 @@ class AssertionValidator implements AssertionValidatorInterface
     /** @var StatementValidatorInterface */
     protected $statementValidator;
 
+    /**
+     * @param NameIdValidatorInterface    $nameIdValidator
+     * @param SubjectValidatorInterface   $subjectValidator
+     * @param StatementValidatorInterface $statementValidator
+     */
     public function __construct(
         NameIdValidatorInterface $nameIdValidator,
         SubjectValidatorInterface $subjectValidator,
@@ -47,6 +52,8 @@ class AssertionValidator implements AssertionValidatorInterface
     }
 
     /**
+     * @param Assertion $assertion
+     *
      * @return void
      */
     public function validateAssertion(Assertion $assertion)
@@ -58,6 +65,8 @@ class AssertionValidator implements AssertionValidatorInterface
     }
 
     /**
+     * @param Assertion $assertion
+     *
      * @throws LightSamlValidationException
      */
     protected function validateAssertionAttributes(Assertion $assertion)
@@ -84,6 +93,8 @@ class AssertionValidator implements AssertionValidatorInterface
     }
 
     /**
+     * @param Assertion $assertion
+     *
      * @throws LightSamlValidationException
      */
     protected function validateSubject(Assertion $assertion)
@@ -133,8 +144,7 @@ class AssertionValidator implements AssertionValidatorInterface
 
     protected function validateConditionsInterval(Conditions $conditions)
     {
-        if (
-            $conditions->getNotBeforeTimestamp() &&
+        if ($conditions->getNotBeforeTimestamp() &&
             $conditions->getNotOnOrAfterTimestamp() &&
             $conditions->getNotBeforeTimestamp() > $conditions->getNotOnOrAfterTimestamp()
         ) {
@@ -143,6 +153,8 @@ class AssertionValidator implements AssertionValidatorInterface
     }
 
     /**
+     * @param ProxyRestriction $item
+     *
      * @throws LightSamlValidationException
      */
     protected function validateProxyRestriction(ProxyRestriction $item)
@@ -161,6 +173,8 @@ class AssertionValidator implements AssertionValidatorInterface
     }
 
     /**
+     * @param AudienceRestriction $item
+     *
      * @throws LightSamlValidationException
      */
     protected function validateAudienceRestriction(AudienceRestriction $item)
@@ -176,6 +190,9 @@ class AssertionValidator implements AssertionValidatorInterface
         }
     }
 
+    /**
+     * @param Assertion $assertion
+     */
     protected function validateStatements(Assertion $assertion)
     {
         if (false == $assertion->getAllItems()) {

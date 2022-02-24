@@ -26,6 +26,10 @@ class MessageIssueInstantAction extends AbstractProfileAction
     /** @var TimeProviderInterface */
     protected $timeProvider;
 
+    /**
+     * @param LoggerInterface       $logger
+     * @param TimeProviderInterface $timeProvider
+     */
     public function __construct(LoggerInterface $logger, TimeProviderInterface $timeProvider)
     {
         parent::__construct($logger);
@@ -34,6 +38,8 @@ class MessageIssueInstantAction extends AbstractProfileAction
     }
 
     /**
+     * @param ProfileContext $context
+     *
      * @return void
      */
     protected function doExecute(ProfileContext $context)

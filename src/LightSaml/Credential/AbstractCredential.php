@@ -23,7 +23,7 @@ abstract class AbstractCredential implements CredentialInterface
     private $usageType;
 
     /** @var string[] */
-    private $keyNames = [];
+    private $keyNames = array();
 
     /** @var XMLSecurityKey|null */
     private $publicKey;
@@ -101,6 +101,8 @@ abstract class AbstractCredential implements CredentialInterface
     }
 
     /**
+     * @param CredentialContextSet $credentialContext
+     *
      * @return AbstractCredential
      */
     public function setCredentialContext(CredentialContextSet $credentialContext)
@@ -150,7 +152,7 @@ abstract class AbstractCredential implements CredentialInterface
     }
 
     /**
-     * @param XMLSecurityKey|null $privateKey
+     * @param null|XMLSecurityKey $privateKey
      *
      * @return AbstractCredential
      */
@@ -162,7 +164,7 @@ abstract class AbstractCredential implements CredentialInterface
     }
 
     /**
-     * @param XMLSecurityKey|null $publicKey
+     * @param null|XMLSecurityKey $publicKey
      *
      * @return AbstractCredential
      */
@@ -174,7 +176,7 @@ abstract class AbstractCredential implements CredentialInterface
     }
 
     /**
-     * @param string|null $secretKey
+     * @param null|string $secretKey
      *
      * @return AbstractCredential
      */

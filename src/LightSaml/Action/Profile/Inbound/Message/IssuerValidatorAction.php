@@ -29,7 +29,9 @@ class IssuerValidatorAction extends AbstractProfileAction
     protected $allowedFormat;
 
     /**
-     * @param string $allowedFormat
+     * @param LoggerInterface          $logger
+     * @param NameIdValidatorInterface $nameIdValidator
+     * @param string                   $allowedFormat
      */
     public function __construct(LoggerInterface $logger, NameIdValidatorInterface $nameIdValidator, $allowedFormat)
     {
@@ -40,6 +42,8 @@ class IssuerValidatorAction extends AbstractProfileAction
     }
 
     /**
+     * @param ProfileContext $context
+     *
      * @return void
      */
     protected function doExecute(ProfileContext $context)
@@ -52,8 +56,7 @@ class IssuerValidatorAction extends AbstractProfileAction
             throw new LightSamlContextException($context, $message);
         }
 
-        if (
-            $this->allowedFormat &&
+        if ($this->allowedFormat &&
             $message->getIssuer()->getValue() &&
             $message->getIssuer()->getFormat() &&
             $message->getIssuer()->getFormat() != $this->allowedFormat

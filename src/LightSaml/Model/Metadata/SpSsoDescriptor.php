@@ -27,12 +27,14 @@ class SpSsoDescriptor extends SSODescriptor
     protected $assertionConsumerServices;
 
     /**
+     * @param AssertionConsumerService $assertionConsumerService
+     *
      * @return SpSsoDescriptor
      */
     public function addAssertionConsumerService(AssertionConsumerService $assertionConsumerService)
     {
         if (false == is_array($this->assertionConsumerServices)) {
-            $this->assertionConsumerServices = [];
+            $this->assertionConsumerServices = array();
         }
         if (null === $assertionConsumerService->getIndex()) {
             $assertionConsumerService->setIndex(count($this->assertionConsumerServices));
@@ -57,7 +59,7 @@ class SpSsoDescriptor extends SSODescriptor
      */
     public function getAllAssertionConsumerServicesByBinding($binding)
     {
-        $result = [];
+        $result = array();
         foreach ($this->getAllAssertionConsumerServices() as $svc) {
             if ($svc->getBinding() == $binding) {
                 $result[] = $svc;
@@ -74,7 +76,7 @@ class SpSsoDescriptor extends SSODescriptor
      */
     public function getAllAssertionConsumerServicesByUrl($url)
     {
-        $result = [];
+        $result = array();
         foreach ($this->getAllAssertionConsumerServices() as $svc) {
             if ($svc->getLocation() == $url) {
                 $result[] = $svc;
@@ -156,24 +158,32 @@ class SpSsoDescriptor extends SSODescriptor
         return $this->wantAssertionsSigned;
     }
 
+    /**
+     * @param \DOMNode             $parent
+     * @param SerializationContext $context
+     */
     public function serialize(\DOMNode $parent, SerializationContext $context)
     {
         $result = $this->createElement('SPSSODescriptor', SamlConstants::NS_METADATA, $parent, $context);
 
         parent::serialize($result, $context);
 
-        $this->attributesToXml(['AuthnRequestsSigned', 'WantAssertionsSigned'], $result);
+        $this->attributesToXml(array('AuthnRequestsSigned', 'WantAssertionsSigned'), $result);
 
         $this->manyElementsToXml($this->getAllAssertionConsumerServices(), $result, $context, null);
     }
 
+    /**
+     * @param \DOMNode               $node
+     * @param DeserializationContext $context
+     */
     public function deserialize(\DOMNode $node, DeserializationContext $context)
     {
         $this->checkXmlNodeName($node, 'SPSSODescriptor', SamlConstants::NS_METADATA);
 
         parent::deserialize($node, $context);
 
-        $this->attributesFromXml($node, ['AuthnRequestsSigned', 'WantAssertionsSigned']);
+        $this->attributesFromXml($node, array('AuthnRequestsSigned', 'WantAssertionsSigned'));
 
         $this->manyElementsFromXml(
             $node,

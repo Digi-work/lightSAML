@@ -25,6 +25,8 @@ class CredentialFactory
     private $extraCredentials = [];
 
     /**
+     * @param CredentialInterface $credential
+     *
      * @return CredentialFactory
      */
     public function addExtraCredential(CredentialInterface $credential)
@@ -35,8 +37,11 @@ class CredentialFactory
     }
 
     /**
-     * @param string                $ownEntityId
-     * @param CredentialInterface[] $extraCredentials
+     * @param EntityDescriptorStoreInterface $idpEntityDescriptorStore
+     * @param EntityDescriptorStoreInterface $spEntityDescriptorStore
+     * @param string                         $ownEntityId
+     * @param CredentialStoreInterface       $ownCredentialStore
+     * @param CredentialInterface[]          $extraCredentials
      *
      * @return CompositeCredentialStore
      */
@@ -56,8 +61,10 @@ class CredentialFactory
     }
 
     /**
-     * @param CredentialInterface[] $ownCredentials
-     * @param CredentialInterface[] $extraCredentials
+     * @param EntityDescriptorStoreInterface $idpEntityDescriptorStore
+     * @param EntityDescriptorStoreInterface $spEntityDescriptorStore
+     * @param CredentialInterface[]          $ownCredentials
+     * @param CredentialInterface[]          $extraCredentials
      *
      * @return CompositeCredentialStore
      */

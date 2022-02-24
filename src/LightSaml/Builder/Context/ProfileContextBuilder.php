@@ -39,6 +39,8 @@ class ProfileContextBuilder
     }
 
     /**
+     * @param Request $request
+     *
      * @return ProfileContextBuilder
      */
     public function setRequest(Request $request)
@@ -57,6 +59,8 @@ class ProfileContextBuilder
     }
 
     /**
+     * @param EntityDescriptorProviderInterface $ownEntityDescriptorProvider
+     *
      * @return ProfileContextBuilder
      */
     public function setOwnEntityDescriptorProvider(EntityDescriptorProviderInterface $ownEntityDescriptorProvider)

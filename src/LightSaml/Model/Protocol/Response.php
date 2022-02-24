@@ -11,19 +11,19 @@
 
 namespace LightSaml\Model\Protocol;
 
-use LightSaml\Model\Assertion\Assertion;
-use LightSaml\Model\Assertion\EncryptedElement;
 use LightSaml\Model\Context\DeserializationContext;
 use LightSaml\Model\Context\SerializationContext;
+use LightSaml\Model\Assertion\Assertion;
+use LightSaml\Model\Assertion\EncryptedElement;
 use LightSaml\SamlConstants;
 
 class Response extends StatusResponse
 {
     /** @var Assertion[] */
-    protected $assertions = [];
+    protected $assertions = array();
 
     /** @var EncryptedElement[] */
-    protected $encryptedAssertions = [];
+    protected $encryptedAssertions = array();
 
     /**
      * @return Assertion[]
@@ -73,7 +73,7 @@ class Response extends StatusResponse
      */
     public function getBearerAssertions()
     {
-        $result = [];
+        $result = array();
         if ($this->getAllAssertions()) {
             foreach ($this->getAllAssertions() as $assertion) {
                 if ($assertion->hasBearerSubject()) {
@@ -86,6 +86,8 @@ class Response extends StatusResponse
     }
 
     /**
+     * @param Assertion $assertion
+     *
      * @return Response
      */
     public function addAssertion(Assertion $assertion)
@@ -96,11 +98,13 @@ class Response extends StatusResponse
     }
 
     /**
+     * @param Assertion $removedAssertion
+     *
      * @return Response
      */
     public function removeAssertion(Assertion $removedAssertion)
     {
-        $arr = [];
+        $arr = array();
         $hasThatAssertion = false;
         foreach ($this->getAllAssertions() as $assertion) {
             if ($assertion !== $removedAssertion) {
@@ -118,6 +122,8 @@ class Response extends StatusResponse
     }
 
     /**
+     * @param EncryptedElement $encryptedAssertion
+     *
      * @return Response
      */
     public function addEncryptedAssertion(EncryptedElement $encryptedAssertion)
@@ -127,6 +133,10 @@ class Response extends StatusResponse
         return $this;
     }
 
+    /**
+     * @param \DOMNode             $parent
+     * @param SerializationContext $context
+     */
     public function serialize(\DOMNode $parent, SerializationContext $context)
     {
         $result = $this->createElement('samlp:Response', SamlConstants::NS_PROTOCOL, $parent, $context);
@@ -137,16 +147,20 @@ class Response extends StatusResponse
         $this->manyElementsToXml($this->getAllEncryptedAssertions(), $result, $context, null);
 
         // must be done here at the end and not in a base class where declared in order to include signing of the elements added here
-        $this->singleElementsToXml(['Signature'], $result, $context);
+        $this->singleElementsToXml(array('Signature'), $result, $context);
     }
 
+    /**
+     * @param \DOMNode               $node
+     * @param DeserializationContext $context
+     */
     public function deserialize(\DOMNode $node, DeserializationContext $context)
     {
         $this->checkXmlNodeName($node, 'Response', SamlConstants::NS_PROTOCOL);
 
         parent::deserialize($node, $context);
 
-        $this->assertions = [];
+        $this->assertions = array();
         $this->manyElementsFromXml(
             $node,
             $context,
@@ -156,7 +170,7 @@ class Response extends StatusResponse
             'addAssertion'
         );
 
-        $this->encryptedAssertions = [];
+        $this->encryptedAssertions = array();
         $this->manyElementsFromXml(
             $node,
             $context,

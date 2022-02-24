@@ -11,9 +11,9 @@
 
 namespace LightSaml\Model\Metadata;
 
-use LightSaml\Model\Assertion\Attribute;
 use LightSaml\Model\Context\DeserializationContext;
 use LightSaml\Model\Context\SerializationContext;
+use LightSaml\Model\Assertion\Attribute;
 use LightSaml\SamlConstants;
 
 class IdpSsoDescriptor extends SSODescriptor
@@ -48,12 +48,14 @@ class IdpSsoDescriptor extends SSODescriptor
     }
 
     /**
+     * @param SingleSignOnService $singleSignOnService
+     *
      * @return IdpSsoDescriptor
      */
     public function addSingleSignOnService(SingleSignOnService $singleSignOnService)
     {
         if (false == is_array($this->singleSignOnServices)) {
-            $this->singleSignOnServices = [];
+            $this->singleSignOnServices = array();
         }
         $this->singleSignOnServices[] = $singleSignOnService;
 
@@ -75,7 +77,7 @@ class IdpSsoDescriptor extends SSODescriptor
      */
     public function getAllSingleSignOnServicesByUrl($url)
     {
-        $result = [];
+        $result = array();
         foreach ($this->getAllSingleSignOnServices() as $svc) {
             if ($svc->getLocation() == $url) {
                 $result[] = $svc;
@@ -92,7 +94,7 @@ class IdpSsoDescriptor extends SSODescriptor
      */
     public function getAllSingleSignOnServicesByBinding($binding)
     {
-        $result = [];
+        $result = array();
         foreach ($this->getAllSingleSignOnServices() as $svc) {
             if ($svc->getBinding() == $binding) {
                 $result[] = $svc;
@@ -119,12 +121,14 @@ class IdpSsoDescriptor extends SSODescriptor
     }
 
     /**
+     * @param \LightSaml\Model\Assertion\Attribute $attribute
+     *
      * @return IdpSsoDescriptor
      */
     public function addAttribute(Attribute $attribute)
     {
         if (false == is_array($this->attributes)) {
-            $this->attributes = [];
+            $this->attributes = array();
         }
         $this->attributes[] = $attribute;
 
@@ -139,13 +143,17 @@ class IdpSsoDescriptor extends SSODescriptor
         return $this->attributes;
     }
 
+    /**
+     * @param \DOMNode             $parent
+     * @param SerializationContext $context
+     */
     public function serialize(\DOMNode $parent, SerializationContext $context)
     {
         $result = $this->createElement('IDPSSODescriptor', SamlConstants::NS_METADATA, $parent, $context);
 
         parent::serialize($result, $context);
 
-        $this->attributesToXml(['WantAuthnRequestsSigned'], $result);
+        $this->attributesToXml(array('WantAuthnRequestsSigned'), $result);
 
         if ($this->getAllSingleSignOnServices()) {
             foreach ($this->getAllSingleSignOnServices() as $object) {
@@ -159,15 +167,19 @@ class IdpSsoDescriptor extends SSODescriptor
         }
     }
 
+    /**
+     * @param \DOMNode               $node
+     * @param DeserializationContext $context
+     */
     public function deserialize(\DOMNode $node, DeserializationContext $context)
     {
         $this->checkXmlNodeName($node, 'IDPSSODescriptor', SamlConstants::NS_METADATA);
 
         parent::deserialize($node, $context);
 
-        $this->attributesFromXml($node, ['WantAuthnRequestsSigned']);
+        $this->attributesFromXml($node, array('WantAuthnRequestsSigned'));
 
-        $this->singleSignOnServices = [];
+        $this->singleSignOnServices = array();
         $this->manyElementsFromXml(
             $node,
             $context,
@@ -177,7 +189,7 @@ class IdpSsoDescriptor extends SSODescriptor
             'addSingleSignOnService'
         );
 
-        $this->attributes = [];
+        $this->attributes = array();
         $this->manyElementsFromXml(
             $node,
             $context,

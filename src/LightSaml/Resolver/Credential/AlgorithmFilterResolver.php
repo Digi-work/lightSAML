@@ -18,22 +18,22 @@ use LightSaml\Criteria\CriteriaSet;
 class AlgorithmFilterResolver extends AbstractQueryableResolver
 {
     /**
+     * @param CriteriaSet           $criteriaSet
      * @param CredentialInterface[] $arrCredentials
      *
      * @return CredentialInterface[]
      */
-    public function resolve(CriteriaSet $criteriaSet, array $arrCredentials = [])
+    public function resolve(CriteriaSet $criteriaSet, array $arrCredentials = array())
     {
         if (false == $criteriaSet->has(AlgorithmCriteria::class)) {
             return $arrCredentials;
         }
 
-        $result = [];
+        $result = array();
         foreach ($criteriaSet->get(AlgorithmCriteria::class) as $criteria) {
             /* @var AlgorithmCriteria $criteria */
             foreach ($arrCredentials as $credential) {
-                if (
-                    ($credential->getPrivateKey() && $credential->getPrivateKey()->getAlgorith() == $criteria->getAlgorithm()) ||
+                if (($credential->getPrivateKey() && $credential->getPrivateKey()->getAlgorith() == $criteria->getAlgorithm()) ||
                     ($credential->getPublicKey() && $credential->getPublicKey()->getAlgorith() == $criteria->getAlgorithm())
                 ) {
                     $result[] = $credential;

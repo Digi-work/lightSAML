@@ -23,6 +23,8 @@ abstract class AbstractBinding
     protected $eventDispatcher;
 
     /**
+     * @param EventDispatcherInterface|null $eventDispatcher
+     *
      * @return AbstractBinding
      */
     public function setEventDispatcher(EventDispatcherInterface $eventDispatcher = null)
@@ -33,7 +35,7 @@ abstract class AbstractBinding
     }
 
     /**
-     * @return \Symfony\Component\EventDispatcher\EventDispatcherInterface|null
+     * @return null|\Symfony\Component\EventDispatcher\EventDispatcherInterface
      */
     public function getEventDispatcher()
     {
@@ -61,11 +63,16 @@ abstract class AbstractBinding
     }
 
     /**
-     * @param string|null $destination
+     * @param MessageContext $context
+     * @param null|string    $destination
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     abstract public function send(MessageContext $context, $destination = null);
 
+    /**
+     * @param Request        $request
+     * @param MessageContext $context
+     */
     abstract public function receive(Request $request, MessageContext $context);
 }

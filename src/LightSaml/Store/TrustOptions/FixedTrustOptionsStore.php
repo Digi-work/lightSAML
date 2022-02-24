@@ -27,6 +27,8 @@ class FixedTrustOptionsStore implements TrustOptionsStoreInterface
     }
 
     /**
+     * @param TrustOptions|null $trustOptions
+     *
      * @return FixedTrustOptionsStore
      */
     public function setTrustOptions(TrustOptions $trustOptions = null)

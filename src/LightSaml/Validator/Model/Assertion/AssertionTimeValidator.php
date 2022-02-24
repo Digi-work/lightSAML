@@ -18,8 +18,9 @@ use LightSaml\Model\Assertion\Assertion;
 class AssertionTimeValidator implements AssertionTimeValidatorInterface
 {
     /**
-     * @param int $now
-     * @param int $allowedSecondsSkew
+     * @param Assertion $assertion
+     * @param int       $now
+     * @param int       $allowedSecondsSkew
      *
      * @throws \LightSaml\Error\LightSamlValidationException
      *
@@ -37,8 +38,9 @@ class AssertionTimeValidator implements AssertionTimeValidatorInterface
     }
 
     /**
-     * @param int $now
-     * @param int $allowedSecondsSkew
+     * @param Assertion $assertion
+     * @param int       $now
+     * @param int       $allowedSecondsSkew
      */
     protected function validateConditions(Assertion $assertion, $now, $allowedSecondsSkew)
     {
@@ -56,8 +58,9 @@ class AssertionTimeValidator implements AssertionTimeValidatorInterface
     }
 
     /**
-     * @param int $now
-     * @param int $allowedSecondsSkew
+     * @param Assertion $assertion
+     * @param int       $now
+     * @param int       $allowedSecondsSkew
      */
     protected function validateAuthnStatements(Assertion $assertion, $now, $allowedSecondsSkew)
     {
@@ -74,8 +77,9 @@ class AssertionTimeValidator implements AssertionTimeValidatorInterface
     }
 
     /**
-     * @param int $now
-     * @param int $allowedSecondsSkew
+     * @param Assertion $assertion
+     * @param int       $now
+     * @param int       $allowedSecondsSkew
      */
     protected function validateSubject(Assertion $assertion, $now, $allowedSecondsSkew)
     {

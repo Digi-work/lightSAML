@@ -23,6 +23,7 @@ use LightSaml\Resolver\Endpoint\Criteria\ServiceTypeCriteria;
 class ServiceTypeEndpointResolver implements EndpointResolverInterface
 {
     /**
+     * @param CriteriaSet         $criteriaSet
      * @param EndpointReference[] $candidates
      *
      * @return EndpointReference[]
@@ -33,7 +34,7 @@ class ServiceTypeEndpointResolver implements EndpointResolverInterface
             return $candidates;
         }
 
-        $result = [];
+        $result = array();
         /** @var ServiceTypeCriteria $serviceTypeCriteria */
         foreach ($criteriaSet->get(ServiceTypeCriteria::class) as $serviceTypeCriteria) {
             foreach ($candidates as $endpointReference) {

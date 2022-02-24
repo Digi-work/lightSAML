@@ -21,13 +21,14 @@ use Pimple\ServiceProviderInterface;
 class OwnContainerProvider implements ServiceProviderInterface
 {
     /** @var CredentialInterface[] */
-    private $ownCredentials = [];
+    private $ownCredentials = array();
 
     /** @var EntityDescriptorProviderInterface */
     private $ownEntityDescriptorProvider;
 
     /**
-     * @param CredentialInterface[] $ownCredentials
+     * @param EntityDescriptorProviderInterface $ownEntityDescriptorProvider
+     * @param CredentialInterface[]             $ownCredentials
      */
     public function __construct(EntityDescriptorProviderInterface $ownEntityDescriptorProvider, array $ownCredentials = null)
     {
@@ -40,6 +41,8 @@ class OwnContainerProvider implements ServiceProviderInterface
     }
 
     /**
+     * @param CredentialInterface $credential
+     *
      * @return OwnContainerProvider
      */
     public function addOwnCredential(CredentialInterface $credential)
